@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import ComponentsDemoPage from './pages/ComponentsDemoPage';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import SharedLayout from './pages/SharedLayout';
+import HomePage from './pages/HomePage';
+import EarphonesPage from './pages/EarphonesPage';
+import HeadphonesPage from './pages/HeadphonesPage';
+import SpeakersPage from './pages/SpeakersPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<SharedLayout />}>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/earphones' element={<EarphonesPage />} />
+          <Route path='/headphones' element={<HeadphonesPage />} />
+          <Route path='/speakers' element={<SpeakersPage />} />
+          <Route path='/product/:productId' element={<ProductDetailPage />} />
+          <Route path='/demo' element={<ComponentsDemoPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
