@@ -1,17 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CheckoutFormInfo } from '../../utils/interface';
 
 interface FormTextFieldProps {
   title: string;
-  value?: string | number;
+  name: string;
+  value?: string | undefined;
   inputType?: string;
   placeholder?: string;
   isError?: boolean;
   errorMsg?: string;
-  onInputChange?: (newInput: string) => void;
+  onInputChange?: (info: CheckoutFormInfo) => void;
 }
 
 const FormTextField = ({
   title,
+  name,
   value,
   inputType = 'text',
   placeholder = '',
@@ -21,12 +24,13 @@ const FormTextField = ({
 }: FormTextFieldProps) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onInputChange) {
-      onInputChange(e.target.value);
+      let temp: CheckoutFormInfo = { [e.target.name]: e.target.value };
+      onInputChange(temp);
     }
   };
 
   return (
-    <div className='w-textField flex flex-col'>
+    <div className='w-full flex flex-col'>
       <div className='flex justify-between'>
         <p
           className={`capitalize text-sm font-bold ${
@@ -43,8 +47,9 @@ const FormTextField = ({
         className={`w-full h-textField px-6 py-4 mt-2 text-md font-bold rounded-lg caret-darkOrange focus:outline-none ${
           isError
             ? 'border-2 border-errorRed'
-            : 'border border-mainGrey focus:border-mainOrange'
+            : 'border border-darkGrey focus:border-mainOrange'
         }`}
+        name={name}
         type={inputType}
         placeholder={placeholder}
         value={value}

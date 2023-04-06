@@ -11,9 +11,12 @@ export default function Features({ features }: Props) {
       </h3>
       {
         <div className='flex flex-col space-y-6 md:space-y-8'>
-          {separateParagraphs(features).map((paragraph) => {
+          {separateParagraphs(features).map((paragraph, index) => {
             return (
-              <p className='text-left text-lg leading-lg tracking-lg md:text-justify lg:text-left'>
+              <p
+                key={index}
+                className='text-left text-lg leading-lg tracking-lg md:text-justify lg:text-left'
+              >
                 {paragraph}
               </p>
             );

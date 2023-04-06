@@ -1,9 +1,11 @@
+import { useEffect, useState } from 'react';
+
 interface FormRadioSelectionProps {
   id: string;
   label: string;
   name: string;
   isChecked: boolean;
-  onCheckChange: (paymentMethod: string) => void;
+  onCheckChange: (paymentMethod: string) => void | undefined;
 }
 
 const FormRadioSelection = ({
@@ -13,10 +15,6 @@ const FormRadioSelection = ({
   isChecked,
   onCheckChange,
 }: FormRadioSelectionProps) => {
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onCheckChange(e.target.id);
-  };
-
   return (
     <div
       className={`w-textField h-textField px-4 flex items-center space-x-4 rounded-lg border hover:border-mainOrange ${
@@ -29,7 +27,8 @@ const FormRadioSelection = ({
         name={name}
         id={id}
         checked={isChecked}
-        onChange={onChange}
+        readOnly
+        onClick={() => onCheckChange(id)}
       />
       <label htmlFor={id} className='text-md font-bold'>
         {label}

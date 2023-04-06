@@ -14,7 +14,7 @@ export default function InTheBox({ includes }: Props) {
       <ul className='w-full flex flex-col space-y-2 md:w-1/2 lg:w-auto'>
         {includes?.map((accessory) => {
           return (
-            <li className='flex items-center'>
+            <li key={accessory.item} className='flex items-center'>
               <p className='w-10 text-darkOrange'>{accessory.quantity}x</p>
               <p className='capitalize text-lg font-medium'>{accessory.item}</p>
             </li>

@@ -24,6 +24,7 @@ const ComponentsDemoPage = () => {
       <TertiaryButton text='shop' />
       <FormTextField
         title='name'
+        name='name'
         placeholder='Insert your name'
         errorMsg='Wrong format'
       />
@@ -31,14 +32,14 @@ const ComponentsDemoPage = () => {
         <FormRadioSelection
           id='emoney'
           label='e-Money'
-          name='payment-method'
+          name='paymentMethod'
           onCheckChange={onPaymentMethodChanged}
           isChecked={selectedPaymentMethod === 'emoney'}
         />
         <FormRadioSelection
           id='creditcard'
           label='Credit card'
-          name='payment-method'
+          name='paymentMethod'
           onCheckChange={onPaymentMethodChanged}
           isChecked={selectedPaymentMethod === 'creditcard'}
         />

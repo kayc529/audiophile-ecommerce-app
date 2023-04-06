@@ -1,7 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const Counter = () => {
+interface Props {
+  onCountChanged?: (count: number) => void;
+}
+
+const Counter = ({ onCountChanged }: Props) => {
   const [count, setCount] = useState<number>(1);
+
+  useEffect(() => {
+    if (onCountChanged) {
+      onCountChanged(count);
+    }
+  }, [count, onCountChanged]);
 
   const increaseCount = () => {
     setCount((prev) => prev + 1);
@@ -10,9 +20,6 @@ const Counter = () => {
   const decreaseCount = () => {
     if (count > 1) {
       setCount((prev) => prev - 1);
-    } else {
-      //TODO
-      //remove item from cart
     }
   };
 

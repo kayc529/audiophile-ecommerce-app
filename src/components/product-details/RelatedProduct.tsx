@@ -27,7 +27,7 @@ export default function RelatedProduct({ product }: Props) {
         </picture>
       </div>
 
-      <h5 className='py-8 text-h5 tracking-h5 font-bold md:pt-10'>
+      <h5 className='py-8 text-h5 tracking-h5 font-bold md:py-6 lg:py-8'>
         {product.productName}
       </h5>
       <PrimaryButton text='see product' onButtonClick={goToProduct} />

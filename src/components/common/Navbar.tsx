@@ -11,7 +11,7 @@ const Navbar = () => {
       <ul className='flex flex-col items-center space-y-4 md:flex-row md:space-x-8 md:space-y-0'>
         {navbarData.map((item) => {
           return (
-            <li>
+            <li key={item.name}>
               <p
                 className='uppercase text-sm text-white tracking-sm cursor-pointer hover:text-darkOrange'
                 onClick={() => goToPage(item.link)}

@@ -10,28 +10,25 @@ interface Props {
 
 export default function ProductPreview({ product, detail = false }: Props) {
   const navigate = useNavigate();
-  const [quantity, setQuantity] = useState<number>(1);
 
   const goToProductDetails = () => {
     navigate(`/product/${product.productId}`);
   };
 
-  const addToCart = () => {
-    //TODO add product with quantity to cart
-  };
-
-  const onQuantityChange = (quantity: number) => {
-    setQuantity(quantity);
-  };
-
   return (
     <article className='flex flex-col items-center space-y-8 md:space-y-12 lg:space-x-[125px] lg:space-y-0 odd:lg:flex-row even:lg:flex-row-reverse even:lg:space-x-reverse'>
       <picture>
-        <source srcSet={product.image.mobile} media='(max-width:767px)' />
-        <source srcSet={product.image.tablet} media='(max-width:967px)' />
+        <source
+          srcSet={product.categoryImage.mobile}
+          media='(max-width:767px)'
+        />
+        <source
+          srcSet={product.categoryImage.tablet}
+          media='(max-width:967px)'
+        />
         <img
           className='h-[352px] rounded-lg object-cover lg:min-h-[560px]'
-          src={product.image.desktop}
+          src={product.categoryImage.desktop}
           alt=''
         />
       </picture>
@@ -47,17 +44,7 @@ export default function ProductPreview({ product, detail = false }: Props) {
         <p className='pb-10 text-center text-lg leading-lg tracking-lg lg:text-start'>
           {product.description}
         </p>
-        {detail ? (
-          <div className='flex space-x-4'>
-            <Counter />
-            <PrimaryButton text='add to cart' />
-          </div>
-        ) : (
-          <PrimaryButton
-            text='see product'
-            onButtonClick={goToProductDetails}
-          />
-        )}
+        <PrimaryButton text='see product' onButtonClick={goToProductDetails} />
       </div>
     </article>
   );

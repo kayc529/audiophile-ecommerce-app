@@ -1,16 +1,12 @@
 import { Product } from '../../utils/interface';
-import {
-  AboutCompany,
-  ProductCategories,
-  ProductPreview,
-  TertiaryButton,
-} from '../common';
+import { AboutCompany, ProductCategories, TertiaryButton } from '../common';
 import Features from './Features';
 import InTheBox from './InTheBox';
 import Gallery from './Gallery';
 import { useNavigate } from 'react-router-dom';
 import RelatedProducts from './RelatedProducts';
 import { useEffect } from 'react';
+import ProductDetails from './ProductDetails';
 
 interface Props {
   product: Product;
@@ -34,7 +30,7 @@ export default function ProductDetailsSharedLayout({ product }: Props) {
       </div>
 
       <div className='w-full space-y-20 flex flex-col md:space-y-30 lg:space-y-40'>
-        <ProductPreview product={product} detail={true} />
+        <ProductDetails product={product} />
         <article className='space-y-20 flex flex-col justify-between md:space-y-30 lg:space-y-0 lg:space-x-4 lg:flex-row'>
           <Features features={product.features} />
           <InTheBox includes={product.includes} />

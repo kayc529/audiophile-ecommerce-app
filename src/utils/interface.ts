@@ -22,6 +22,7 @@ export interface Product {
   description: string;
   category: string;
   image: ProductPhoto;
+  categoryImage: ProductPhoto;
   isNew: boolean;
 
   //detail page only
@@ -30,4 +31,36 @@ export interface Product {
   includes?: ProductAccessory[];
   gallery?: ProductPhoto[];
   relatedProducts?: RelatedProducts[];
+}
+
+export interface InfoObject {
+  value: string;
+  isError: boolean;
+}
+
+export const isInfoObject = (object: any) => {
+  return object.value;
+};
+
+export interface CheckoutFormInfo {
+  name?: InfoObject;
+  email?: InfoObject;
+  phoneNumber?: InfoObject;
+  address?: InfoObject;
+  zipCode?: InfoObject;
+  city?: InfoObject;
+  country?: InfoObject;
+  paymentMethod?: string;
+  //temporary
+  eMoneyNumber?: InfoObject;
+  eMoneyPin?: InfoObject;
+}
+
+export interface CartItem {
+  id: string | number;
+  productId: string;
+  productCode: string;
+  thumbnail: string;
+  price: number;
+  quantity: number;
 }

@@ -9,7 +9,7 @@ interface Props {
 export default function RelatedProducts({ relatedProducts }: Props) {
   return (
     <article className='w-full flex flex-col items-center'>
-      <h3 className='pb-16 uppercase text-h3 leading-3 tracking-h3 font-bold'>
+      <h3 className='pb-10 uppercase text-h5 leading-h5 tracking-h5 font-bold md:pb-14 md:text-h3 md:leading-h3 md:tracking-h3 lg:pb-16'>
         you may also like
       </h3>
       <ul className='w-full flex flex-col space-y-14 md:space-y-0 md:space-x-[11px] md:flex-row lg:space-x-[30px]'>
