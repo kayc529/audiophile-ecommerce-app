@@ -29,6 +29,28 @@ body {
   font-family: 'Manrope', sans-serif;
 }
 
+.Modal {
+  position: fixed;
+  width: 100%;
+  height: auto;
+  background:transparent;
+  border:0;
+  outline: none;
+  z-index:20;
+}
+
+.ModalOverlay {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,0.7);
+  background-color: rgba(0,0,0,0.3);
+  z-index: 30;
+}
+
 .form-radio-btn {
   -webkit-appearance: none;
   appearance: none;
@@ -177,5 +199,14 @@ body {
 
   .about-company-bg {
     content: url('../public/assets/shared/mobile/image-best-gear.jpg');
+  }
+
+  .Modal {
+    position: absolute;
+  }
+  
+  .ModalOverlay {
+    position: absolute;
+    height: 100%;
   }
 }

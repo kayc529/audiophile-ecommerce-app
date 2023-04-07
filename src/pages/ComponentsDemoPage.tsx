@@ -1,3 +1,4 @@
+import OrderCompletedModal from '../components/checkout/OrderCompletedModal';
 import {
   PrimaryButton,
   SecondaryButton,
@@ -5,6 +6,7 @@ import {
   FormTextField,
   FormRadioSelection,
   Counter,
+  CartModal,
 } from '../components/common';
 import { useState } from 'react';
 
@@ -17,18 +19,21 @@ const ComponentsDemoPage = () => {
     setSelectedPaymentMethod(paymentMethod);
   };
   return (
-    <div>
+    <div className='w-full bg-blue-100 flex flex-col items-center space-y-6  md:max-w-mainContentTablet lg:max-w-mainContent'>
       <PrimaryButton text='see product' />
       <SecondaryButton text='see product' darkMode={false} />
       <SecondaryButton text='see product' darkMode={true} />
       <TertiaryButton text='shop' />
-      <FormTextField
-        title='name'
-        name='name'
-        placeholder='Insert your name'
-        errorMsg='Wrong format'
-      />
-      <fieldset>
+      <div className='w-1/3'>
+        <FormTextField
+          title='name'
+          name='name'
+          placeholder='Insert your name'
+          errorMsg='Wrong format'
+        />
+      </div>
+
+      <fieldset className='w-1/3'>
         <FormRadioSelection
           id='emoney'
           label='e-Money'
@@ -45,6 +50,8 @@ const ComponentsDemoPage = () => {
         />
       </fieldset>
       <Counter />
+      <CartModal />
+      <OrderCompletedModal />
     </div>
   );
 };

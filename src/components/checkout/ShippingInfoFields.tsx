@@ -17,7 +17,7 @@ export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
         placeholder='1137 Williams Avenue'
         onInputChange={onInfoChanged}
       />
-      <div className='grid grid-rows-2 grid-cols-2 gap-x-4 gap-y-6'>
+      <div className='grid gap-y-6 md:grid-rows-2 md:grid-cols-2 md:gap-x-4'>
         <FormTextField
           title='ZIP code'
           name='zipCode'

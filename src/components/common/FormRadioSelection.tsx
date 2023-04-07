@@ -17,7 +17,7 @@ const FormRadioSelection = ({
 }: FormRadioSelectionProps) => {
   return (
     <div
-      className={`w-textField h-textField px-4 flex items-center space-x-4 rounded-lg border hover:border-mainOrange ${
+      className={`w-full h-textField px-4 flex items-center space-x-4 rounded-lg border hover:border-mainOrange ${
         isChecked ? 'border-mainOrange' : 'border-mainGrey'
       }`}
     >

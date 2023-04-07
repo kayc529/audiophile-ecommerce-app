@@ -19,10 +19,10 @@ export default function CheckoutPage() {
   };
 
   return (
-    <section className='w-full flex flex-col items-center bg-mainGrey lg:pt-[90px] lg:pb-30'>
-      <article className='w-full max-w-mainContentMobile flex flex-col md:max-w-mainContentTablet lg:max-w-mainContent lg:space-y-10'>
+    <section className='w-full pt-4 pb-25 flex flex-col items-center bg-mainGrey md:px-6 md:pt-12 md:pb-30 lg:pt-[90px]'>
+      <article className='w-full max-w-mainContentMobile flex flex-col space-y-6 md:max-w-mainContentTablet lg:max-w-mainContent lg:space-y-10'>
         <TertiaryButton left={true} text='go back' />
-        <div className='flex lg:flex-row lg:space-x-7'>
+        <div className='flex flex-col space-y-8 lg:flex-row lg:space-x-7 lg:space-y-0'>
           <CheckoutForm info={info} onInfoChange={onInputChange} />
           <Summary onCheckOut={checkOut} />
         </div>

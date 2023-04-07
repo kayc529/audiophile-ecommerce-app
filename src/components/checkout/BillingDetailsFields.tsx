@@ -8,7 +8,7 @@ interface Props {
 
 export default function BillingDetailsFields({ info, onInfoChange }: Props) {
   return (
-    <div className='grid grid-rows-2 grid-cols-2 gap-x-4 gap-y-6'>
+    <div className='grid gap-y-6 md:grid-rows-2 md:grid-cols-2 md:gap-x-4'>
       <FormTextField
         title='name'
         name='name'

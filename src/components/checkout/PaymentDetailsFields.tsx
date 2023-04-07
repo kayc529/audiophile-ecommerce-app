@@ -39,11 +39,11 @@ export default function PaymentDetailsFields({ info, onInfoChange }: Props) {
 
   return (
     <div className='w-full flex flex-col space-y-6'>
-      <div className='w-full flex space-x-4'>
-        <p className='w-1/2 capitalize text-start text-sm font-bold'>
+      <div className='w-full flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0'>
+        <p className='w-full capitalize text-start text-sm font-bold md:w-1/2'>
           payment method
         </p>
-        <fieldset className='w-1/2 space-y-4'>
+        <fieldset className='w-full space-y-4 md:w-1/2'>
           <FormRadioSelection
             id='emoney'
             label='e-Money'
@@ -61,7 +61,7 @@ export default function PaymentDetailsFields({ info, onInfoChange }: Props) {
         </fieldset>
       </div>
       {isUsingEMoney() && (
-        <div className='grid grid-rows-1 grid-cols-2 gap-x-4'>
+        <div className='grid gap-y-6 md:grid-rows-1 md:grid-cols-2 md:gap-x-4'>
           <FormTextField
             title='e-Money Number'
             name='eMoneyNumber'

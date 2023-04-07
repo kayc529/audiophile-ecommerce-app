@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function CashPaymentInfo() {
   return (
-    <div className='flex space-x-8'>
+    <div className='flex space-x-4 md:space-x-8'>
       <img
         className='w-12 h-12'
         src='/assets/checkout/icon-cash-on-delivery.svg'

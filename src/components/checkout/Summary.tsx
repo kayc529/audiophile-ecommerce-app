@@ -9,8 +9,8 @@ interface Props {
 
 export default function Summary({ onCheckOut }: Props) {
   return (
-    <section className='w-1/3 h-max max-w-[350px] p-8 bg-white rounded-lg flex flex-col'>
-      <h6 className='uppercase text-h6 leading-h6 tracking-h6 font-bold'>
+    <section className='w-full h-max p-8 bg-white rounded-lg flex flex-col lg:w-1/3'>
+      <h6 className='uppercase text-h6 leading-h6 tracking-h6 font-bold lg:w-1/3 lg:max-w-[350px]'>
         summary
       </h6>
       <ul className='py-8 flex flex-col space-y-6'>

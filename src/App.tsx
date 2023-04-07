@@ -7,22 +7,29 @@ import HeadphonesPage from './pages/HeadphonesPage';
 import SpeakersPage from './pages/SpeakersPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
+import { ModalShade } from './components/common';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<SharedLayout />}>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/earphones' element={<EarphonesPage />} />
-          <Route path='/headphones' element={<HeadphonesPage />} />
-          <Route path='/speakers' element={<SpeakersPage />} />
-          <Route path='/product/:productId' element={<ProductDetailPage />} />
-          <Route path='/checkout' element={<CheckoutPage />} />
-          <Route path='/demo' element={<ComponentsDemoPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <>
+      <ModalShade />
+      <BrowserRouter>
+        <Routes>
+          <Route element={<SharedLayout />}>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/earphones' element={<EarphonesPage />} />
+            <Route path='/headphones' element={<HeadphonesPage />} />
+            <Route path='/speakers' element={<SpeakersPage />} />
+            <Route path='/product/:productId' element={<ProductDetailPage />} />
+            <Route path='/checkout' element={<CheckoutPage />} />
+            <Route path='/demo' element={<ComponentsDemoPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 };
 
