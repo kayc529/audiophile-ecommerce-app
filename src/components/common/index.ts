@@ -19,4 +19,4 @@ export { default as ProductCategories } from './ProductCategories';
 export { default as ProductPreview } from './ProductPreview';
 export { default as CartModal } from './CartModal';
 export { default as PricingRow } from './PricingRow';
-export { default as ModalShade } from './ModalShade';
+export { default as ModalContainer } from './ModalContainer';

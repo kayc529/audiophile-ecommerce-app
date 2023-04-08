@@ -15,10 +15,6 @@ interface Props {
 export default function ProductDetailsSharedLayout({ product }: Props) {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
   const goBack = () => {
     navigate(-1);
   };

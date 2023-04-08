@@ -1,22 +1,20 @@
-import { Outlet } from 'react-router-dom';
-import { Footer, Header, HeaderContainer } from '../components/common';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { Outlet, useLocation } from 'react-router-dom';
+import { Footer, HeaderContainer } from '../components/common';
+import { useEffect } from 'react';
+import { scrollToTop } from '../utils/scrollHelper';
 
 const SharedLayout = () => {
-  const { isMenuOpened } = useSelector((state: RootState) => state.user);
+  const location = useLocation();
+
+  useEffect(() => {
+    scrollToTop();
+  }, [location]);
 
   return (
     <main className='w-full flex flex-col items-center'>
       <HeaderContainer />
-      {isMenuOpened ? (
-        <></>
-      ) : (
-        <>
-          <Outlet />
-          <Footer />
-        </>
-      )}
+      <Outlet />
+      <Footer />
     </main>
   );
 };

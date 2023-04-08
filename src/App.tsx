@@ -7,7 +7,6 @@ import HeadphonesPage from './pages/HeadphonesPage';
 import SpeakersPage from './pages/SpeakersPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
-import { ModalShade } from './components/common';
 import Modal from 'react-modal';
 
 Modal.setAppElement('#root');
@@ -15,7 +14,6 @@ Modal.setAppElement('#root');
 const App = () => {
   return (
     <>
-      <ModalShade />
       <BrowserRouter>
         <Routes>
           <Route element={<SharedLayout />}>
@@ -27,6 +25,7 @@ const App = () => {
             <Route path='/checkout' element={<CheckoutPage />} />
             <Route path='/demo' element={<ComponentsDemoPage />} />
           </Route>
+          <Route path='/demo2' element={<ComponentsDemoPage />} />
         </Routes>
       </BrowserRouter>
     </>
