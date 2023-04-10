@@ -8,12 +8,14 @@ import SpeakersPage from './pages/SpeakersPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import Modal from 'react-modal';
+import { ModalShade } from './components/common';
 
 Modal.setAppElement('#root');
 
 const App = () => {
   return (
     <>
+      <ModalShade />
       <BrowserRouter>
         <Routes>
           <Route element={<SharedLayout />}>

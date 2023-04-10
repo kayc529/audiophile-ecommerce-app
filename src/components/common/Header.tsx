@@ -4,27 +4,59 @@ import Logo from './Logo';
 import Navbar from './Navbar';
 import NavbarMenu from './NavbarMenu';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleTopMenu } from '../../features/user/userSlice';
+import ProductCategories from './ProductCategories';
+import CartModal from './CartModal';
+import {
+  toggleCart,
+  toggleHeaderMenu,
+  closeAllModals,
+} from '../../features/modal/modalSlice';
+import { useWindowSize } from '../../hooks/useWindowSize';
+import { useEffect } from 'react';
+import { SCREENSIZE } from '../../utils/constants';
 
 const Header = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { isMenuOpened } = useSelector((state: RootState) => state.user);
+  const { isHeaderMenuOpen, isCartOpen } = useSelector(
+    (state: RootState) => state.modal
+  );
+  const [width] = useWindowSize();
+
+  useEffect(() => {
+    if (width >= SCREENSIZE.LG) {
+      closeMenu();
+    }
+  }, [width]);
 
   const toggleMenu = () => {
-    dispatch(toggleTopMenu());
+    if (!isHeaderMenuOpen) {
+      dispatch(closeAllModals());
+      dispatch(toggleHeaderMenu());
+    } else {
+      dispatch(toggleHeaderMenu());
+    }
+  };
+
+  const toggleCartMenu = () => {
+    if (!isCartOpen) {
+      dispatch(closeAllModals());
+      dispatch(toggleCart());
+    } else {
+      dispatch(toggleCart());
+    }
   };
 
   const closeMenu = () => {
-    if (isMenuOpened) {
-      dispatch(toggleTopMenu());
+    if (isHeaderMenuOpen) {
+      dispatch(toggleHeaderMenu());
     }
   };
 
   return (
     <header
-      className={`relative w-full h-headerTablet bg-backgroundBlack flex justify-center lg:h-header`}
+      className={`z-modalDialog relative w-full h-headerTablet bg-backgroundBlack flex justify-center lg:h-header`}
     >
-      <div className='header-columns w-full px-4 items-center border-b border-transparentWhite md:max-w-mainContentTablet lg:max-w-mainContent'>
+      <div className='header-columns relative w-full px-4 items-center border-b border-transparentWhite md:max-w-mainContentTablet lg:max-w-mainContent'>
         <NavbarMenu onMenuClick={toggleMenu} />
         <div
           className='justify-self-center md:justify-self-start'
@@ -35,10 +67,23 @@ const Header = () => {
         <div className='hidden lg:block'>
           <Navbar />
         </div>
-        <div onClick={closeMenu}>
-          <Cart />
-        </div>
+
+        <Cart onCartClicked={toggleCartMenu} />
+
+        {/* Cart Modal */}
+        {isCartOpen && (
+          <div className='z-modalDialog absolute top-[122px] right-0 lg:top-[129px]'>
+            <CartModal />
+          </div>
+        )}
       </div>
+
+      {/* Menu Modal*/}
+      {isHeaderMenuOpen && (
+        <div className='absolute left-0 top-[90px] w-full h-max pt-14 pb-16 bg-white flex justify-center lg:hidden'>
+          <ProductCategories />
+        </div>
+      )}
     </header>
   );
 };
