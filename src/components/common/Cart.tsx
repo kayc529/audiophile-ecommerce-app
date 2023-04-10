@@ -1,14 +1,8 @@
-import { AppDispatch } from '../../store';
-import { useDispatch } from 'react-redux';
-import { toggleCart } from '../../features/user/userSlice';
-
 interface Props {
   onCartClicked?: () => void;
 }
 
 export default function Cart({ onCartClicked }: Props) {
-  const dispatch: AppDispatch = useDispatch();
-
   const cartClicked = () => {
     if (onCartClicked) {
       onCartClicked();
