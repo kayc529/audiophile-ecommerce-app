@@ -1,6 +1,7 @@
 import React from 'react';
 import { CheckoutFormInfo } from '../../utils/interface';
-import { FormTextField } from '../common';
+import { FormTextField, SelectField } from '../common';
+import { CHECKOUT_FORM_COUNTRIES } from '../../utils/constants';
 
 interface Props {
   info?: CheckoutFormInfo;
@@ -13,31 +14,38 @@ export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
       <FormTextField
         title='address'
         name='address'
-        value={info?.address?.value}
         placeholder='1137 Williams Avenue'
+        value={info?.address?.value}
+        isError={info?.address?.isError}
+        errorMsg={info?.address?.errorMsg}
         onInputChange={onInfoChanged}
       />
       <div className='grid gap-y-6 md:grid-rows-2 md:grid-cols-2 md:gap-x-4'>
         <FormTextField
           title='ZIP code'
           name='zipCode'
-          value={info?.zipCode?.value}
           placeholder='10001'
+          value={info?.zipCode?.value}
+          isError={info?.zipCode?.isError}
+          errorMsg={info?.zipCode?.errorMsg}
           onInputChange={onInfoChanged}
         />
         <FormTextField
           title='city'
           name='city'
-          value={info?.city?.value}
           placeholder='New York'
+          value={info?.city?.value}
+          isError={info?.city?.isError}
+          errorMsg={info?.city?.errorMsg}
           onInputChange={onInfoChanged}
         />
-        <FormTextField
+        <SelectField
+          selections={CHECKOUT_FORM_COUNTRIES}
           title='country'
-          name='country'
           value={info?.country?.value}
-          placeholder='United States'
-          onInputChange={onInfoChanged}
+          isError={info?.country?.isError}
+          errorMsg={info?.country?.errorMsg}
+          onSelectionChange={onInfoChanged}
         />
       </div>
     </div>

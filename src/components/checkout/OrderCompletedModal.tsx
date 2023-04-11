@@ -1,10 +1,20 @@
 import React from 'react';
 import { PrimaryButton } from '../common';
 import OrderSummary from './OrderSummary';
+import { AppDispatch } from '../../store';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toggleOrderComplete } from '../../features/modal/modalSlice';
 
-type Props = {};
+export default function OrderCompletedModal() {
+  const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
 
-export default function OrderCompletedModal({}: Props) {
+  const goBackHome = () => {
+    dispatch(toggleOrderComplete());
+    navigate('/');
+  };
+
   return (
     <aside className='w-mainContentMobile p-8 rounded-lg bg-white flex flex-col md:w-[540px] md:p-12'>
       <div className='w-16 h-16 rounded-full bg-darkOrange'>
@@ -22,7 +32,11 @@ export default function OrderCompletedModal({}: Props) {
       </p>
       <OrderSummary />
       <div className='w-full pt-12'>
-        <PrimaryButton text='back to home' fullSize={true} />
+        <PrimaryButton
+          text='back to home'
+          fullSize={true}
+          onButtonClick={goBackHome}
+        />
       </div>
     </aside>
   );

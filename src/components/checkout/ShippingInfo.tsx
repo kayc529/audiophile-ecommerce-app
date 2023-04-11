@@ -11,7 +11,7 @@ interface Props {
 export default function ShippingInfo({ info, onInfoChange }: Props) {
   return (
     <InputFieldsSharedLayout title='shipping info'>
-      <ShippingInfoFields />
+      <ShippingInfoFields info={info} onInfoChanged={onInfoChange} />
     </InputFieldsSharedLayout>
   );
 }

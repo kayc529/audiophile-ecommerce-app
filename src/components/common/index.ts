@@ -20,3 +20,4 @@ export { default as CartModal } from './CartModal';
 export { default as PricingRow } from './PricingRow';
 export { default as ModalContainer } from './ModalContainer';
 export { default as ModalShade } from './ModalShade';
+export { default as SelectField } from './SelectField';

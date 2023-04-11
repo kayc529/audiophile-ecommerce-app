@@ -1,6 +1,9 @@
 import React from 'react';
 import { TertiaryButton } from '.';
 import { useNavigate } from 'react-router-dom';
+import { AppDispatch } from '../../store';
+import { useDispatch } from 'react-redux';
+import { closeAllModals } from '../../features/modal/modalSlice';
 
 interface Props {
   categoryName: string;
@@ -9,7 +12,10 @@ interface Props {
 
 export default function ProductCategory({ categoryName, children }: Props) {
   const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
+
   const goToProductPage = () => {
+    dispatch(closeAllModals());
     navigate(`/${categoryName}`);
   };
 

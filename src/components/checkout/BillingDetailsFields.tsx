@@ -12,22 +12,28 @@ export default function BillingDetailsFields({ info, onInfoChange }: Props) {
       <FormTextField
         title='name'
         name='name'
-        value={info?.name?.value}
         placeholder='John Doe'
+        value={info?.name?.value}
+        isError={info?.name?.isError}
+        errorMsg={info?.name?.errorMsg}
         onInputChange={onInfoChange}
       />
       <FormTextField
         title='email address'
         name='email'
-        value={info?.email?.value}
         placeholder='johndoe@gmail.com'
+        value={info?.email?.value}
+        isError={info?.email?.isError}
+        errorMsg={info?.email?.errorMsg}
         onInputChange={onInfoChange}
       />
       <FormTextField
         title='phone number'
         name='phoneNumber'
-        value={info?.phoneNumber?.value}
         placeholder='+1 123-456-7890'
+        value={info?.phoneNumber?.value}
+        isError={info?.phoneNumber?.isError}
+        errorMsg={info?.phoneNumber?.errorMsg}
         onInputChange={onInfoChange}
       />
     </div>

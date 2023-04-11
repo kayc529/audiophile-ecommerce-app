@@ -4,10 +4,20 @@ import CartModalItem from './CartModalItem';
 import PrimaryButton from './PrimaryButton';
 import PricingRow from './PricingRow';
 import { calculateTotalAmount } from '../../utils/checkoutAmountHelper';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { closeAllModals } from '../../features/modal/modalSlice';
 
-interface Props {}
+export default function CartModal() {
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
-export default function CartModal({}: Props) {
+  const goToCheckoutPage = () => {
+    dispatch(closeAllModals());
+    navigate('/checkout');
+  };
+
   return (
     <aside className='w-mainContentMobile px-7 py-8 bg-white rounded-lg flex flex-col space-y-8 md:w-cartModal md:px-8'>
       <div className='flex justify-between items-center'>
@@ -28,7 +38,11 @@ export default function CartModal({}: Props) {
           title='total'
           amount={calculateTotalAmount(dummyCartItems)}
         />
-        <PrimaryButton text='checkout' fullSize={true} />
+        <PrimaryButton
+          text='checkout'
+          fullSize={true}
+          onButtonClick={goToCheckoutPage}
+        />
       </div>
     </aside>
   );

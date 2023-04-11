@@ -36,6 +36,7 @@ export interface Product {
 export interface InfoObject {
   value: string;
   isError: boolean;
+  errorMsg?: string;
 }
 
 export const isInfoObject = (object: any) => {
@@ -50,7 +51,7 @@ export interface CheckoutFormInfo {
   zipCode?: InfoObject;
   city?: InfoObject;
   country?: InfoObject;
-  paymentMethod?: string;
+  paymentMethod?: InfoObject;
   //temporary
   eMoneyNumber?: InfoObject;
   eMoneyPin?: InfoObject;

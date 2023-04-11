@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { CheckoutFormInfo } from '../../utils/interface';
 
 interface FormTextFieldProps {
@@ -24,7 +24,9 @@ const FormTextField = ({
 }: FormTextFieldProps) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onInputChange) {
-      let temp: CheckoutFormInfo = { [e.target.name]: e.target.value };
+      let temp: CheckoutFormInfo = {
+        [e.target.name]: { value: e.target.value, isError: false },
+      };
       onInputChange(temp);
     }
   };
@@ -39,9 +41,7 @@ const FormTextField = ({
         >
           {title}
         </p>
-        {isError && (
-          <p className='capitalize text-sm text-errorRed'>{errorMsg}</p>
-        )}
+        {isError && <p className='text-sm text-errorRed'>{errorMsg}</p>}
       </div>
       <input
         className={`w-full h-textField px-6 py-4 mt-2 text-md font-bold rounded-lg caret-darkOrange focus:outline-none ${

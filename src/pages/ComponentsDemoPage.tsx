@@ -7,6 +7,7 @@ import {
   FormRadioSelection,
   Counter,
   CartModal,
+  SelectField,
 } from '../components/common';
 import { useState } from 'react';
 
@@ -31,6 +32,9 @@ const ComponentsDemoPage = () => {
           placeholder='Insert your name'
           errorMsg='Wrong format'
         />
+      </div>
+      <div className='w-1/3'>
+        <SelectField selections={['Canada', 'United States']} title='country' />
       </div>
 
       <fieldset className='w-1/3'>

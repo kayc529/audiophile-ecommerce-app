@@ -13,7 +13,7 @@ export const initialCheckFormInfo: CheckoutFormInfo = {
   zipCode: initialInfoObjectValue,
   city: initialInfoObjectValue,
   country: initialInfoObjectValue,
-  paymentMethod: 'e-money',
+  paymentMethod: initialInfoObjectValue,
   eMoneyNumber: initialInfoObjectValue,
   eMoneyPin: initialInfoObjectValue,
 };
