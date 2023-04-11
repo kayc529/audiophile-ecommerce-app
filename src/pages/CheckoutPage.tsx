@@ -36,7 +36,7 @@ export default function CheckoutPage() {
       alert('Please check your info');
       return;
     }
-
+    console.log(info);
     dispatch(toggleOrderComplete());
   };
 

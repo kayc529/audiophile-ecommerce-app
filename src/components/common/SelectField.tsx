@@ -49,11 +49,7 @@ export default function SelectField({
         </option>
         {selections.map((selection) => {
           return (
-            <option
-              key={selection}
-              value={selection}
-              selected={value === selection}
-            >
+            <option key={selection} value={selection}>
               {selection}
             </option>
           );

@@ -14,7 +14,6 @@ export default function PaymentDetailsFields({ info, onInfoChange }: Props) {
       let temp: CheckoutFormInfo = {
         paymentMethod: { value: newPaymentMethod, isError: false },
       };
-      console.log(temp);
       if (newPaymentMethod === 'cash') {
         temp = {
           ...temp,
