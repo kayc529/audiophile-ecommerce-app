@@ -102,9 +102,9 @@ module.exports = {
         productCategoryTablet: '218px',
       },
       zIndex: {
-        oneLevelUp: '10',
-        modalBg: '20',
-        modalDialog: '30',
+        oneLevelUp: '20',
+        modalBg: '30',
+        modalDialog: '40',
       },
     },
   },

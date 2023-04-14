@@ -4,7 +4,7 @@ import Summary from '../components/checkout/Summary';
 import { TertiaryButton } from '../components/common';
 import { CheckoutFormInfo } from '../utils/interface';
 import { initialCheckFormInfo } from '../data/initialValues';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import OrderCompletedModal from '../components/checkout/OrderCompletedModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
@@ -23,6 +23,7 @@ export default function CheckoutPage() {
   const { isOrderCompleteOpen } = useSelector(
     (state: RootState) => state.modal
   );
+  const { cartItems } = useSelector((state: RootState) => state.user);
   const [info, setInfo] = useState<CheckoutFormInfo>(initialCheckFormInfo);
 
   const onInputChange = (newInfo: CheckoutFormInfo) => {
@@ -121,6 +122,12 @@ export default function CheckoutPage() {
   const goBack = () => {
     navigate(-1);
   };
+
+  //if cart is empty, avoid showing an invalid checkout page by forcing the user
+  //back to home page
+  if (cartItems.length === 0) {
+    return <Navigate to='/' replace={true} />;
+  }
 
   return (
     <section className='w-full pt-4 pb-25 flex flex-col items-center bg-mainGrey md:px-6 md:pt-12 md:pb-30 lg:pt-[90px]'>

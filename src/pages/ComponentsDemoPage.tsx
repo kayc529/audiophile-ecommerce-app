@@ -53,7 +53,7 @@ const ComponentsDemoPage = () => {
           isChecked={selectedPaymentMethod === 'creditcard'}
         />
       </fieldset>
-      <Counter />
+      <Counter count={1} />
       <CartModal />
       <OrderCompletedModal />
     </div>

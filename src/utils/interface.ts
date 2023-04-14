@@ -19,6 +19,7 @@ export interface Product {
   id: string | number;
   productId: string;
   productName: string;
+  productCode: string;
   description: string;
   category: string;
   image: ProductPhoto;

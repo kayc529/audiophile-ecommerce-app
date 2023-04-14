@@ -1,10 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { PrimaryButton } from '../common';
 
 export default function Hero() {
+  const navigate = useNavigate();
+  const goToProduct = () => {
+    navigate('/product/xx99-mark-two-headphones');
+  };
+
   return (
     <section className='relative w-full h-hero px-4 bg-backgroundBlack flex'>
-      <div className='hero w-full mx-auto pt-[108px] md:max-w-mainContentTablet md:pt-[128px] lg:max-w-mainContent'>
-        <div className='w-100 flex flex-col mx-auto items-center lg:items-start lg:mx-0'>
+      <div className='relative w-full mx-auto pt-[108px] flex md:max-w-mainContentTablet md:pt-[128px] lg:max-w-mainContent'>
+        <div className='hero absolute top-0 w-full h-full'></div>
+        <div className='z-oneLevelUp --reveal --fadeLeft w-100 flex flex-col mx-auto items-center lg:items-start lg:mx-0'>
           <p className='uppercase text-md text-transparentWhite tracking-md'>
             new product
           </p>
@@ -15,7 +22,7 @@ export default function Hero() {
             Experience natural, lifelike audio and exceptional build quality
             made for the passionate music enthusiast.
           </p>
-          <PrimaryButton text='see product' />
+          <PrimaryButton text='see product' onButtonClick={goToProduct} />
         </div>
       </div>
     </section>

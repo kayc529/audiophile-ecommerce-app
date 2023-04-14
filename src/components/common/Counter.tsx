@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 
 interface Props {
+  count: number;
   onCountChanged?: (count: number) => void;
+  forCart?: boolean;
 }
 
-const Counter = ({ onCountChanged }: Props) => {
-  const [count, setCount] = useState<number>(1);
-
+const Counter = ({ count, onCountChanged, forCart = false }: Props) => {
   useEffect(() => {
     if (onCountChanged) {
       onCountChanged(count);
@@ -14,17 +14,24 @@ const Counter = ({ onCountChanged }: Props) => {
   }, [count, onCountChanged]);
 
   const increaseCount = () => {
-    setCount((prev) => prev + 1);
+    if (onCountChanged) {
+      onCountChanged(count + 1);
+    }
   };
 
   const decreaseCount = () => {
-    if (count > 1) {
-      setCount((prev) => prev - 1);
+    let newCount = count >= 1 ? count - 1 : 0;
+    if (onCountChanged) {
+      onCountChanged(newCount);
     }
   };
 
   return (
-    <div className='w-counter h-counter px-2 bg-mainGrey flex items-center justify-between'>
+    <div
+      className={`${
+        forCart ? 'w-counter h-counter' : 'w-button h-button'
+      } px-2 bg-mainGrey flex items-center justify-between`}
+    >
       <p
         className='w-4 h-4 text-sm text-center text-grey font-bold cursor-pointer opacity-30 select-none hover:text-darkOrange hover:opacity-100'
         onClick={decreaseCount}

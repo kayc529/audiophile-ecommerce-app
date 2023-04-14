@@ -9,10 +9,24 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CheckoutPage from './pages/CheckoutPage';
 import Modal from 'react-modal';
 import { ModalShade } from './components/common';
+import { useEffect } from 'react';
+import {
+  revealAnimatedElements,
+  setAnimations,
+} from './utils/scrollingAnimation';
 
 Modal.setAppElement('#root');
 
 const App = () => {
+  useEffect(() => {
+    window.addEventListener('scroll', setAnimations);
+    return () => {
+      window.removeEventListener('scroll', setAnimations);
+    };
+  }, []);
+
+  setAnimations();
+
   return (
     <>
       <ModalShade />

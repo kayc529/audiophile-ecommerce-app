@@ -5,6 +5,7 @@ export const headphonesData: Product[] = [
     id: 1,
     productId: 'xx99-mark-two-headphones',
     productName: 'XX99 Mark II Headphones',
+    productCode: 'XX99 MK II',
     category: 'headphone',
     description:
       'The new XX99 Mark II headphones is the pinnacle of pristine audio. It redefines your premium headphone experience by reproducing the balanced depth and precision of studio-quality sound.',
@@ -30,6 +31,7 @@ export const headphonesData: Product[] = [
     id: 2,
     productId: 'xx99-mark-one-headphones',
     productName: 'XX99 Mark I Headphones',
+    productCode: 'XX99 MK I',
     category: 'headphone',
     description:
       'As the gold standard for headphones, the classic XX99 Mark I offers detailed and accurate audio reproduction for audiophiles, mixing engineers, and music aficionados alike in studios and on the go.',
@@ -55,6 +57,7 @@ export const headphonesData: Product[] = [
     id: 3,
     productId: 'xx59-headphones',
     productName: 'XX59 Headphones',
+    productCode: 'XX59',
     category: 'headphone',
     description:
       'Enjoy your audio almost anywhere and customize it to your specific tastes with the XX59 headphones. The stylish yet durable versatile wireless headset is a brilliant companion at home or on the move.',
@@ -80,6 +83,7 @@ export const speakersData: Product[] = [
     id: 4,
     productId: 'zx9-speaker',
     productName: 'ZX9 Speaker',
+    productCode: 'ZX9',
     category: 'speaker',
     description:
       'Upgrade your sound system with the all new ZX9 active speaker. It’s a bookshelf speaker system that offers truly wireless connectivity -- creating new possibilities for more pleasing and practical audio setups.',
@@ -102,6 +106,7 @@ export const speakersData: Product[] = [
     id: 5,
     productId: 'zx7-speaker',
     productName: 'ZX7 Speaker',
+    productCode: 'ZX7',
     category: 'speaker',
     description:
       'Stream high quality sound wirelessly with minimal loss. The ZX7 bookshelf speaker uses high-end audiophile components that represents the top of the line powered speakers for home or studio use.',
@@ -127,6 +132,7 @@ export const earphonesData: Product[] = [
     id: 6,
     productId: 'yx1-wireless-earphones',
     productName: 'YX1 Wireless Earphones',
+    productCode: 'YX1',
     category: 'earphones',
     description:
       'Tailor your listening experience with bespoke dynamic drivers from the new YX1 Wireless Earphones. Enjoy incredible high-fidelity sound even in noisy environments with its active noise cancellation feature.',

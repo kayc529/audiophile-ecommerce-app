@@ -1,16 +1,22 @@
+import { useDispatch } from 'react-redux';
 import { Product } from '../../utils/interface';
+import { convertProductToCartItem } from '../../utils/productToCartItemHelper';
 import { PrimaryButton, Counter } from '../common';
 import { useState } from 'react';
+import { addItemToCart } from '../../features/user/userSlice';
 
 interface Props {
   product: Product;
 }
 
 export default function ProductDetails({ product }: Props) {
+  const dispatch = useDispatch();
   const [quantity, setQuantity] = useState<number>(1);
 
   const addToCart = () => {
-    //TODO add product with quantity to cart
+    let cartItem = convertProductToCartItem(product);
+    cartItem.quantity = quantity;
+    dispatch(addItemToCart(cartItem));
   };
 
   const onQuantityChange = (quantity: number) => {
@@ -44,7 +50,7 @@ export default function ProductDetails({ product }: Props) {
           $ {product.price?.toLocaleString('en-US') || ' - '}
         </p>
         <div className='w-full flex space-x-4'>
-          <Counter onCountChanged={onQuantityChange} />
+          <Counter onCountChanged={onQuantityChange} count={quantity} />
           <PrimaryButton text='add to cart' onButtonClick={addToCart} />
         </div>
       </div>

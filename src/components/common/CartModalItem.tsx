@@ -1,12 +1,35 @@
 import React from 'react';
 import { CartItem } from '../../utils/interface';
 import Counter from './Counter';
+import { useDispatch } from 'react-redux';
+import {
+  modifyCartItemQuantity,
+  removeItemFromCart,
+} from '../../features/user/userSlice';
+var _ = require('lodash');
 
 interface Props {
   cartItem: CartItem;
 }
 
 export default function CartModalItem({ cartItem }: Props) {
+  const dispatch = useDispatch();
+
+  const countChanged = (newCount: number) => {
+    //TODO if the newCount is 0
+    //remove item
+    if (newCount !== cartItem.quantity) {
+      if (newCount === 0) {
+        dispatch(removeItemFromCart(cartItem));
+        return;
+      }
+
+      let newCartItem = _.cloneDeep(cartItem);
+      newCartItem.quantity = newCount;
+      dispatch(modifyCartItemQuantity(newCartItem));
+    }
+  };
+
   return (
     <li className='flex justify-between items-center'>
       <div className='flex space-x-4 items-center'>
@@ -24,7 +47,11 @@ export default function CartModalItem({ cartItem }: Props) {
           </p>
         </div>
       </div>
-      <Counter />
+      <Counter
+        forCart={true}
+        count={cartItem.quantity}
+        onCountChanged={countChanged}
+      />
     </li>
   );
 }

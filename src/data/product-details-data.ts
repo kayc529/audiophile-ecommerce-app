@@ -5,6 +5,7 @@ export const productDetailsData: Product[] = [
     id: 1,
     productId: 'xx99-mark-two-headphones',
     productName: 'XX99 Mark II Headphones',
+    productCode: 'XX99 MK II',
     category: 'headphone',
     price: 2999,
     description:
@@ -110,6 +111,7 @@ export const productDetailsData: Product[] = [
     id: 2,
     productId: 'xx99-mark-one-headphones',
     productName: 'XX99 Mark I Headphones',
+    productCode: 'XX99 MK I',
     category: 'headphone',
     price: 1750,
     description:
@@ -158,7 +160,7 @@ export const productDetailsData: Product[] = [
         tablet:
           '/assets/product-xx99-mark-one-headphones/tablet/image-gallery-1.jpg',
         desktop:
-          './assets/product-xx99-mark-one-headphones/desktop/image-gallery-1.jpg',
+          '/assets/product-xx99-mark-one-headphones/desktop/image-gallery-1.jpg',
       },
       {
         mobile:
@@ -211,6 +213,7 @@ export const productDetailsData: Product[] = [
     id: 3,
     productId: 'xx59-headphones',
     productName: 'XX59 Headphones',
+    productCode: 'XX59',
     category: 'headphone',
     price: 899,
     description:
@@ -271,27 +274,27 @@ export const productDetailsData: Product[] = [
         productId: 'xx99-mark-two-headphones',
         productName: 'XX99 Mark II',
         image: {
-          mobile: './assets/shared/mobile/image-xx99-mark-two-headphones.jpg',
-          tablet: './assets/shared/tablet/image-xx99-mark-two-headphones.jpg',
-          desktop: './assets/shared/desktop/image-xx99-mark-two-headphones.jpg',
+          mobile: '/assets/shared/mobile/image-xx99-mark-two-headphones.jpg',
+          tablet: '/assets/shared/tablet/image-xx99-mark-two-headphones.jpg',
+          desktop: '/assets/shared/desktop/image-xx99-mark-two-headphones.jpg',
         },
       },
       {
         productId: 'xx99-mark-one-headphones',
         productName: 'XX99 Mark I',
         image: {
-          mobile: './assets/shared/mobile/image-xx99-mark-one-headphones.jpg',
-          tablet: './assets/shared/tablet/image-xx99-mark-one-headphones.jpg',
-          desktop: './assets/shared/desktop/image-xx99-mark-one-headphones.jpg',
+          mobile: '/assets/shared/mobile/image-xx99-mark-one-headphones.jpg',
+          tablet: '/assets/shared/tablet/image-xx99-mark-one-headphones.jpg',
+          desktop: '/assets/shared/desktop/image-xx99-mark-one-headphones.jpg',
         },
       },
       {
         productId: 'zx9-speaker',
         productName: 'ZX9 Speaker',
         image: {
-          mobile: './assets/shared/mobile/image-zx9-speaker.jpg',
-          tablet: './assets/shared/tablet/image-zx9-speaker.jpg',
-          desktop: './assets/shared/desktop/image-zx9-speaker.jpg',
+          mobile: '/assets/shared/mobile/image-zx9-speaker.jpg',
+          tablet: '/assets/shared/tablet/image-zx9-speaker.jpg',
+          desktop: '/assets/shared/desktop/image-zx9-speaker.jpg',
         },
       },
     ],
@@ -300,6 +303,7 @@ export const productDetailsData: Product[] = [
     id: 4,
     productId: 'zx9-speaker',
     productName: 'ZX9 Speaker',
+    productCode: 'ZX9',
     category: 'speaker',
     price: 4500,
     description:
@@ -393,6 +397,7 @@ export const productDetailsData: Product[] = [
     id: 5,
     productId: 'zx7-speaker',
     productName: 'ZX7 Speaker',
+    productCode: 'ZX7',
     category: 'speaker',
     price: 3500,
     description:
@@ -437,19 +442,19 @@ export const productDetailsData: Product[] = [
     ],
     gallery: [
       {
-        mobile: './assets/product-zx7-speaker/mobile/image-gallery-1.jpg',
-        tablet: './assets/product-zx7-speaker/tablet/image-gallery-1.jpg',
-        desktop: './assets/product-zx7-speaker/desktop/image-gallery-1.jpg',
+        mobile: '/assets/product-zx7-speaker/mobile/image-gallery-1.jpg',
+        tablet: '/assets/product-zx7-speaker/tablet/image-gallery-1.jpg',
+        desktop: '/assets/product-zx7-speaker/desktop/image-gallery-1.jpg',
       },
       {
-        mobile: './assets/product-zx7-speaker/mobile/image-gallery-2.jpg',
-        tablet: './assets/product-zx7-speaker/tablet/image-gallery-2.jpg',
-        desktop: './assets/product-zx7-speaker/desktop/image-gallery-2.jpg',
+        mobile: '/assets/product-zx7-speaker/mobile/image-gallery-2.jpg',
+        tablet: '/assets/product-zx7-speaker/tablet/image-gallery-2.jpg',
+        desktop: '/assets/product-zx7-speaker/desktop/image-gallery-2.jpg',
       },
       {
-        mobile: './assets/product-zx7-speaker/mobile/image-gallery-3.jpg',
-        tablet: './assets/product-zx7-speaker/tablet/image-gallery-3.jpg',
-        desktop: './assets/product-zx7-speaker/desktop/image-gallery-3.jpg',
+        mobile: '/assets/product-zx7-speaker/mobile/image-gallery-3.jpg',
+        tablet: '/assets/product-zx7-speaker/tablet/image-gallery-3.jpg',
+        desktop: '/assets/product-zx7-speaker/desktop/image-gallery-3.jpg',
       },
     ],
     relatedProducts: [
@@ -457,27 +462,27 @@ export const productDetailsData: Product[] = [
         productId: 'zx9-speaker',
         productName: 'ZX9 Speaker',
         image: {
-          mobile: './assets/shared/mobile/image-zx9-speaker.jpg',
-          tablet: './assets/shared/tablet/image-zx9-speaker.jpg',
-          desktop: './assets/shared/desktop/image-zx9-speaker.jpg',
+          mobile: '/assets/shared/mobile/image-zx9-speaker.jpg',
+          tablet: '/assets/shared/tablet/image-zx9-speaker.jpg',
+          desktop: '/assets/shared/desktop/image-zx9-speaker.jpg',
         },
       },
       {
         productId: 'xx99-mark-one-headphones',
         productName: 'XX99 Mark I',
         image: {
-          mobile: './assets/shared/mobile/image-xx99-mark-one-headphones.jpg',
-          tablet: './assets/shared/tablet/image-xx99-mark-one-headphones.jpg',
-          desktop: './assets/shared/desktop/image-xx99-mark-one-headphones.jpg',
+          mobile: '/assets/shared/mobile/image-xx99-mark-one-headphones.jpg',
+          tablet: '/assets/shared/tablet/image-xx99-mark-one-headphones.jpg',
+          desktop: '/assets/shared/desktop/image-xx99-mark-one-headphones.jpg',
         },
       },
       {
         productId: 'xx59-headphones',
         productName: 'XX59',
         image: {
-          mobile: './assets/shared/mobile/image-xx59-headphones.jpg',
-          tablet: './assets/shared/tablet/image-xx59-headphones.jpg',
-          desktop: './assets/shared/desktop/image-xx59-headphones.jpg',
+          mobile: '/assets/shared/mobile/image-xx59-headphones.jpg',
+          tablet: '/assets/shared/tablet/image-xx59-headphones.jpg',
+          desktop: '/assets/shared/desktop/image-xx59-headphones.jpg',
         },
       },
     ],
@@ -486,6 +491,7 @@ export const productDetailsData: Product[] = [
     id: 6,
     productId: 'yx1-wireless-earphones',
     productName: 'YX1 Wireless Earphones',
+    productCode: 'YX1',
     category: 'earphones',
     price: 599,
     description:
@@ -504,6 +510,31 @@ export const productDetailsData: Product[] = [
         '/assets/product-yx1-earphones/desktop/image-category-page-preview.jpg',
     },
     isNew: true,
+    features:
+      'Experience unrivalled stereo sound thanks to innovative acoustic technology. With improved ergonomics designed for full day wearing, these revolutionary earphones have been finely crafted to provide you with the perfect fit, delivering complete comfort all day long while enjoying exceptional noise isolation and truly immersive sound.\n\nThe YX1 Wireless Earphones features customizable controls for volume, music, calls, and voice assistants built into both earbuds. The new 7-hour battery life can be extended up to 28 hours with the charging case, giving you uninterrupted play time. Exquisite craftsmanship with a splash resistant design now available in an all new white and grey color scheme as well as the popular classic black.',
+    includes: [
+      {
+        quantity: 2,
+        item: 'Earphone unit',
+      },
+      {
+        quantity: 6,
+        item: 'Multi-size earplugs',
+      },
+      {
+        quantity: 1,
+        item: 'User manual',
+      },
+      {
+        quantity: 1,
+        item: 'USB-C charging cable',
+      },
+      {
+        quantity: 1,
+        item: 'Travel pouch',
+      },
+    ],
+
     gallery: [
       {
         mobile: '/assets/product-yx1-earphones/mobile/image-gallery-1.jpg',

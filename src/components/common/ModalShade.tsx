@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import { closeAllModals } from '../../features/modal/modalSlice';
@@ -19,7 +18,7 @@ export default function ModalShade() {
 
   return isModalOpen ? (
     <div
-      className='z-modalBg fixed w-full h-full bg-modalShade'
+      className='z-modalBg --modal-shade fixed w-full h-full bg-modalShade'
       onClick={closeModal}
     ></div>
   ) : (

@@ -5,19 +5,22 @@ import InTheBox from './InTheBox';
 import Gallery from './Gallery';
 import { useNavigate } from 'react-router-dom';
 import RelatedProducts from './RelatedProducts';
-import { useEffect } from 'react';
 import ProductDetails from './ProductDetails';
 
 interface Props {
-  product: Product;
+  product: Product | null;
 }
 
-export default function ProductDetailsSharedLayout({ product }: Props) {
+export default function ProductDetailsSharedLayout({ product = null }: Props) {
   const navigate = useNavigate();
 
   const goBack = () => {
     navigate(-1);
   };
+
+  if (!product) {
+    return <div>lol</div>;
+  }
 
   return (
     <section className='w-full max-w-mainContentMobile pt-4 pb-30 flex flex-col items-center md:max-w-mainContentTablet md:px-6 md:pt-8 lg:max-w-mainContent lg:pt-20 lg:pb-40'>

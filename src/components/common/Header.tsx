@@ -72,7 +72,7 @@ const Header = () => {
 
         {/* Cart Modal */}
         {isCartOpen && (
-          <div className='z-modalDialog absolute top-[122px] right-0 lg:top-[129px]'>
+          <div className='checkout-modal z-modalDialog absolute top-[122px] right-0 lg:top-[129px]'>
             <CartModal />
           </div>
         )}
@@ -80,7 +80,7 @@ const Header = () => {
 
       {/* Menu Modal*/}
       {isHeaderMenuOpen && (
-        <div className='absolute left-0 top-[90px] w-full h-max pt-14 pb-16 bg-white flex justify-center lg:hidden'>
+        <div className='dropdown-menu absolute left-0 top-[90px] w-full h-max pt-14 pb-16 bg-white flex justify-center lg:hidden'>
           <ProductCategories />
         </div>
       )}

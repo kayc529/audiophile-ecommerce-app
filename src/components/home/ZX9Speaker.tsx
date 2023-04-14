@@ -1,8 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import { SecondaryButton } from '../common';
 
 export default function ZX9Speaker() {
+  const navigate = useNavigate();
+
+  const goToProduct = () => {
+    navigate('/product/zx9-speaker');
+  };
+
   return (
-    <article className='zx9-speaker-container w-full h-[600px] rounded-lg bg-darkOrange flex flex-col justify-center overflow-hidden md:h-[720px] lg:h-[560px] lg:grid lg:grid-rows-1 lg:grid-cols-2'>
+    <article className='--scroll-opacity zx9-speaker zx9-speaker-container w-full h-[600px] rounded-lg bg-darkOrange flex flex-col justify-center overflow-hidden md:h-[720px] lg:h-[560px] lg:grid lg:grid-rows-1 lg:grid-cols-2'>
       <div className='relative hidden flex items-end lg:block'>
         <img
           className='absolute left-[130px] -bottom-3 w-[370px] h-auto'
@@ -25,7 +32,11 @@ export default function ZX9Speaker() {
           Upgrade to premium speakers that are phenomenally built to deliver
           truly remarkable sound.
         </p>
-        <SecondaryButton text='see product' darkMode={true} />
+        <SecondaryButton
+          text='see product'
+          darkMode={true}
+          onButtonClick={goToProduct}
+        />
       </div>
     </article>
   );
