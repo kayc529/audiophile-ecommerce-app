@@ -6,6 +6,7 @@ import { scrollToTop } from '../utils/scrollHelper';
 const SharedLayout = () => {
   const location = useLocation();
 
+  //resume top position when a new page is loaded
   useEffect(() => {
     scrollToTop();
   }, [location]);

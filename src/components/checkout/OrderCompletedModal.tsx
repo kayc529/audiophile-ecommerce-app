@@ -5,14 +5,18 @@ import { AppDispatch } from '../../store';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleOrderComplete } from '../../features/modal/modalSlice';
+import { removeAllCartItems } from '../../features/user/userSlice';
 
 export default function OrderCompletedModal() {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const goBackHome = () => {
+    //TODO remove later
+    dispatch(removeAllCartItems());
+
     dispatch(toggleOrderComplete());
-    navigate('/');
+    navigate('/', { replace: true });
   };
 
   return (

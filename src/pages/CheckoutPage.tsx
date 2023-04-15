@@ -16,6 +16,9 @@ import {
   validateNumberOnlyField,
   validateEMoneyNumber,
 } from '../utils/formValidationHelper';
+import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
+import { removeCartInLocalStorage } from '../utils/localStorageHelper';
+import { removeAllCartItems } from '../features/user/userSlice';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -34,10 +37,12 @@ export default function CheckoutPage() {
   const checkOut = (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
     if (!isFormInfoValid()) {
-      alert('Please check your info');
+      toastMessage('Please check your input', TOAST_MESSAGE_TYPE.ERROR);
       return;
     }
-    console.log(info);
+
+    //call api to create order
+
     dispatch(toggleOrderComplete());
   };
 

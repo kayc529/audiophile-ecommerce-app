@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CartItem } from '../../utils/interface';
+import {
+  getCartFromLocalStorage,
+  removeCartInLocalStorage,
+  updateCartInLocalStorage,
+} from '../../utils/localStorageHelper';
 const _ = require('lodash');
 
 export interface UserInitialState {
@@ -9,7 +14,7 @@ export interface UserInitialState {
 
 const initialState: UserInitialState = {
   isLoading: false,
-  cartItems: [],
+  cartItems: getCartFromLocalStorage(),
 };
 
 export const userSlice = createSlice({
@@ -29,6 +34,7 @@ export const userSlice = createSlice({
         temp.push(action.payload);
       }
 
+      updateCartInLocalStorage(temp);
       return { ...state, cartItems: temp };
     },
     modifyCartItemQuantity: (state, action) => {
@@ -40,6 +46,8 @@ export const userSlice = createSlice({
       if (index !== -1) {
         temp[index].quantity = action.payload.quantity;
       }
+
+      updateCartInLocalStorage(temp);
       return { ...state, cartItems: temp };
     },
     removeItemFromCart: (state, action) => {
@@ -53,9 +61,11 @@ export const userSlice = createSlice({
         temp.splice(index, 1);
       }
 
+      updateCartInLocalStorage(temp);
       return { ...state, cartItems: temp };
     },
     removeAllCartItems: (state) => {
+      removeCartInLocalStorage();
       return { ...state, cartItems: [] };
     },
   },

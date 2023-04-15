@@ -4,6 +4,7 @@ import { convertProductToCartItem } from '../../utils/productToCartItemHelper';
 import { PrimaryButton, Counter } from '../common';
 import { useState } from 'react';
 import { addItemToCart } from '../../features/user/userSlice';
+import { toastMessage } from '../../utils/toastHelper';
 
 interface Props {
   product: Product;
@@ -17,6 +18,7 @@ export default function ProductDetails({ product }: Props) {
     let cartItem = convertProductToCartItem(product);
     cartItem.quantity = quantity;
     dispatch(addItemToCart(cartItem));
+    toastMessage('Item added to cart');
   };
 
   const onQuantityChange = (quantity: number) => {

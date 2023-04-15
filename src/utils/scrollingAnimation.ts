@@ -1,12 +1,12 @@
 const VISIBLE_DISTANCE = 200;
-const OPACITY_CONSTANT = 0.85;
+const OPACITY_CONSTANT = 0.9;
 const ZX9_OFFSET = 50;
 const ZX7_OFFSET = 650;
 const YX1_OFFSET = 1100;
-const ZX9_CHECKPOINT = 900;
-const ZX7_CHECKPOINT = 1600;
-const YX1_CHECKPOINT_1 = 1800;
-const YX1_CHECKPOINT_2 = 2200;
+const ZX9_CHECKPOINT = 1000;
+const ZX7_CHECKPOINT = 1800;
+const YX1_CHECKPOINT_1 = 2000;
+const YX1_CHECKPOINT_2 = 2100;
 
 export const setAnimations = () => {
   revealAnimatedElements();

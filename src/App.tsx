@@ -10,14 +10,14 @@ import CheckoutPage from './pages/CheckoutPage';
 import Modal from 'react-modal';
 import { ModalShade } from './components/common';
 import { useEffect } from 'react';
-import {
-  revealAnimatedElements,
-  setAnimations,
-} from './utils/scrollingAnimation';
+import { setAnimations } from './utils/scrollingAnimation';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 Modal.setAppElement('#root');
 
 const App = () => {
+  //scrolling animation
   useEffect(() => {
     window.addEventListener('scroll', setAnimations);
     return () => {
@@ -25,10 +25,23 @@ const App = () => {
     };
   }, []);
 
+  //call it once to detect scrolling position initially
   setAnimations();
 
   return (
     <>
+      <ToastContainer
+        position='top-right'
+        autoClose={1500}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme='light'
+      />
       <ModalShade />
       <BrowserRouter>
         <Routes>
