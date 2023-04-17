@@ -1,24 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckoutForm from '../components/checkout/CheckoutForm';
 import Summary from '../components/checkout/Summary';
 import { TertiaryButton } from '../components/common';
-import { CheckoutFormInfo } from '../utils/interface';
+import { CheckoutFormInfo, FormInfo } from '../utils/interface';
 import { initialCheckFormInfo } from '../data/initialValues';
 import { Navigate, useNavigate } from 'react-router-dom';
 import OrderCompletedModal from '../components/checkout/OrderCompletedModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store';
 import { toggleOrderComplete } from '../features/modal/modalSlice';
-import {
-  validateNotBlankField,
-  validateEmail,
-  validatePhoneNumber,
-  validateNumberOnlyField,
-  validateEMoneyNumber,
-} from '../utils/formValidationHelper';
+import { isInputFieldValid, FIELD_NAMES } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
-import { removeCartInLocalStorage } from '../utils/localStorageHelper';
-import { removeAllCartItems } from '../features/user/userSlice';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -30,20 +22,24 @@ export default function CheckoutPage() {
   const [info, setInfo] = useState<CheckoutFormInfo>(initialCheckFormInfo);
 
   const onInputChange = (newInfo: CheckoutFormInfo) => {
+    if (newInfo.country) {
+      newInfo = { ...newInfo, state: { value: '', isError: false } };
+    }
+
     let temp = { ...info, ...newInfo };
     setInfo(temp);
   };
 
   const checkOut = (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
+    console.log(info);
     if (!isFormInfoValid()) {
       toastMessage('Please check your input', TOAST_MESSAGE_TYPE.ERROR);
       return;
     }
 
     //call api to create order
-
-    dispatch(toggleOrderComplete());
+    // dispatch(toggleOrderComplete());
   };
 
   const isFormInfoValid = (): boolean => {
@@ -51,77 +47,81 @@ export default function CheckoutPage() {
       isNameInfoValid() &&
       isEmailInfoValid() &&
       isPhoneNumberInfoValid() &&
-      isAddressInfoValid() &&
-      isZipCodeInfoValid() &&
+      isStreetInfoValid() &&
       isCityInfoValid() &&
+      isPostalCodeInfoValid() &&
       isCountryValid() &&
+      isStateInfoValid() &&
       isPaymentMethodValid()
     );
   };
 
   const isNameInfoValid = (): boolean => {
-    const infoAfterValidation = validateNotBlankField(info.name);
-    onInputChange({ name: infoAfterValidation });
-    return !infoAfterValidation.isError;
+    return isInputFieldValid(FIELD_NAMES.NAME, info.name, onInputChange);
   };
 
   const isEmailInfoValid = (): boolean => {
-    const infoAfterValidation = validateEmail(info.email);
-    onInputChange({ email: infoAfterValidation });
-    return !infoAfterValidation.isError;
+    return isInputFieldValid(FIELD_NAMES.EMAIL, info.email, onInputChange);
   };
 
   const isPhoneNumberInfoValid = () => {
-    const infoAfterValidation = validatePhoneNumber(info.phoneNumber);
-    onInputChange({ phoneNumber: infoAfterValidation });
-    return !infoAfterValidation.isError;
+    return isInputFieldValid(
+      FIELD_NAMES.PHONE_NUMBER,
+      info.phoneNumber,
+      onInputChange
+    );
   };
 
-  const isAddressInfoValid = () => {
-    const infoAfterValidation = validateNotBlankField(info.address);
-    onInputChange({ address: infoAfterValidation });
-    return !infoAfterValidation.isError;
-  };
-
-  const isZipCodeInfoValid = () => {
-    const infoAfterValidation = validateNotBlankField(info.zipCode);
-    onInputChange({ zipCode: infoAfterValidation });
-    return !infoAfterValidation.isError;
+  const isStreetInfoValid = () => {
+    return isInputFieldValid(FIELD_NAMES.STREET, info.street, onInputChange);
   };
 
   const isCityInfoValid = () => {
-    const infoAfterValidation = validateNotBlankField(info.city);
-    onInputChange({ city: infoAfterValidation });
-    return !infoAfterValidation.isError;
+    return isInputFieldValid(FIELD_NAMES.CITY, info.city, onInputChange);
+  };
+
+  const isStateInfoValid = () => {
+    return isInputFieldValid(FIELD_NAMES.STATE, info.state, onInputChange);
+  };
+
+  const isPostalCodeInfoValid = () => {
+    return isInputFieldValid(
+      FIELD_NAMES.POSTAL_CODE,
+      info.postalCode,
+      onInputChange
+    );
   };
 
   const isCountryValid = () => {
-    const infoAfterValidation = validateNotBlankField(info.country);
-    onInputChange({ country: infoAfterValidation });
-    return !infoAfterValidation.isError;
+    return isInputFieldValid(FIELD_NAMES.COUNTRY, info.country, onInputChange);
   };
 
   const isPaymentMethodValid = () => {
-    const infoAfterValidation = validateNotBlankField(info.paymentMethod);
-    onInputChange({ paymentMethod: infoAfterValidation });
-
     if (info.paymentMethod?.value === 'emoney') {
       return isEMoneyNumberValid() && isEMoneyPinValid();
     }
 
-    return !infoAfterValidation.isError;
+    return !isInputFieldValid(
+      FIELD_NAMES.PAYMENT_METHOD,
+      info.paymentMethod,
+      onInputChange
+    );
   };
 
   const isEMoneyNumberValid = () => {
-    const infoAfterValidation = validateEMoneyNumber(info.eMoneyNumber);
-    onInputChange({ eMoneyNumber: infoAfterValidation });
-    return !infoAfterValidation.isError;
+    return isInputFieldValid(
+      FIELD_NAMES.E_MONEY_NUMBER,
+      info.eMoneyNumber,
+      onInputChange
+    );
   };
 
   const isEMoneyPinValid = () => {
-    const infoAfterValidation = validateNumberOnlyField(info.eMoneyPin);
-    onInputChange({ eMoneyPin: infoAfterValidation });
-    return !infoAfterValidation.isError;
+    return isInputFieldValid(
+      FIELD_NAMES.E_MONEY_PIN,
+      info.eMoneyPin,
+      onInputChange
+    );
   };
 
   const goBack = () => {

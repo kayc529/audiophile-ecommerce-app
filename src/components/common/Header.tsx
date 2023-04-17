@@ -14,8 +14,13 @@ import {
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { useEffect } from 'react';
 import { SCREENSIZE } from '../../utils/constants';
+import LoginRegisterIcon from './LoginRegisterIcon';
 
-const Header = () => {
+interface Props {
+  showLogoOnly?: boolean;
+}
+
+const Header = ({ showLogoOnly = false }: Props) => {
   const dispatch: AppDispatch = useDispatch();
   const { isHeaderMenuOpen, isCartOpen } = useSelector(
     (state: RootState) => state.modal
@@ -56,19 +61,40 @@ const Header = () => {
     <header
       className={`z-modalDialog relative w-full h-headerTablet bg-backgroundBlack flex justify-center lg:h-header`}
     >
-      <div className='header-columns relative w-full px-4 items-center border-b border-transparentWhite md:max-w-mainContentTablet lg:max-w-mainContent'>
-        <NavbarMenu onMenuClick={toggleMenu} />
+      <div
+        className={`${
+          showLogoOnly ? 'flex' : 'header-columns'
+        } relative w-full px-4 items-center border-b border-transparentWhite md:max-w-mainContentTablet lg:max-w-mainContent`}
+      >
+        {/* Tablet & Mobile Hamburger Menu Button */}
+        {!showLogoOnly && <NavbarMenu onMenuClick={toggleMenu} />}
+
+        {/* Logo */}
         <div
-          className='justify-self-center md:justify-self-start'
+          className={
+            showLogoOnly
+              ? 'mx-auto'
+              : 'justify-self-center md:justify-self-start'
+          }
           onClick={closeMenu}
         >
           <Logo />
         </div>
-        <div className='hidden lg:block'>
-          <Navbar />
-        </div>
 
-        <Cart onCartClicked={toggleCartMenu} />
+        {/* Nav */}
+        {!showLogoOnly && (
+          <div className='hidden lg:block'>
+            <Navbar />
+          </div>
+        )}
+
+        {/* User & Cart Icons */}
+        {!showLogoOnly && (
+          <div className='space-x-6 flex justify-end items-center'>
+            <LoginRegisterIcon />
+            <Cart onCartClicked={toggleCartMenu} />
+          </div>
+        )}
 
         {/* Cart Modal */}
         {isCartOpen && (

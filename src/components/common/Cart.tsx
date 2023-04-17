@@ -25,7 +25,11 @@ export default function Cart({ onCartClicked }: Props) {
         </div>
       )}
 
-      <img src='/assets/shared/desktop/icon-cart.svg' alt='cart' />
+      <img
+        className='w-auto h-6'
+        src='/assets/shared/desktop/icon-cart.svg'
+        alt='cart'
+      />
     </div>
   );
 }

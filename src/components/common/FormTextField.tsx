@@ -1,5 +1,6 @@
-import React from 'react';
-import { CheckoutFormInfo } from '../../utils/interface';
+import React, { useState } from 'react';
+import { FormInfo } from '../../utils/interface';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 interface FormTextFieldProps {
   title: string;
@@ -7,9 +8,11 @@ interface FormTextFieldProps {
   value?: string | undefined;
   inputType?: string;
   placeholder?: string;
+  maxLength?: number;
+  isPasswordField?: boolean;
   isError?: boolean;
   errorMsg?: string;
-  onInputChange?: (info: CheckoutFormInfo) => void;
+  onInputChange?: (info: FormInfo) => void;
 }
 
 const FormTextField = ({
@@ -18,21 +21,49 @@ const FormTextField = ({
   value,
   inputType = 'text',
   placeholder = '',
+  maxLength = 100,
+  isPasswordField = false,
   isError = false,
   errorMsg = '',
   onInputChange,
 }: FormTextFieldProps) => {
+  const [type, setType] = useState(inputType);
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onInputChange) {
-      let temp: CheckoutFormInfo = {
+      let temp: FormInfo = {
         [e.target.name]: { value: e.target.value, isError: false },
       };
       onInputChange(temp);
     }
   };
 
+  const getEyeIcon = () => {
+    return type === 'password' ? (
+      <AiOutlineEyeInvisible
+        className='absolute top-11 right-4 w-6 h-6'
+        style={{ color: 'grey' }}
+        onClick={toggleEye}
+      />
+    ) : (
+      <AiOutlineEye
+        className='absolute top-11 right-4 w-6 h-6'
+        style={{ color: 'grey' }}
+        onClick={toggleEye}
+      />
+    );
+  };
+
+  const toggleEye = () => {
+    if (type === 'password') {
+      setType('text');
+    } else {
+      setType('password');
+    }
+  };
+
   return (
-    <div className='w-full flex flex-col'>
+    <div className='relative w-full flex flex-col'>
       <div className='flex justify-between'>
         <p
           className={`capitalize text-sm font-bold ${
@@ -44,17 +75,19 @@ const FormTextField = ({
         {isError && <p className='text-sm text-errorRed'>{errorMsg}</p>}
       </div>
       <input
-        className={`w-full h-textField px-6 py-4 mt-2 text-md font-bold rounded-lg caret-darkOrange focus:outline-none ${
+        className={`w-full h-textField pl-6 pr-16 py-4 mt-2 text-md font-bold rounded-lg caret-darkOrange focus:outline-none ${
           isError
             ? 'border-2 border-errorRed'
             : 'border border-darkGrey focus:border-mainOrange'
         }`}
         name={name}
-        type={inputType}
+        type={type}
         placeholder={placeholder}
+        maxLength={maxLength}
         value={value}
         onChange={onChange}
       />
+      {isPasswordField && getEyeIcon()}
     </div>
   );
 };

@@ -34,7 +34,11 @@ const ComponentsDemoPage = () => {
         />
       </div>
       <div className='w-1/3'>
-        <SelectField selections={['Canada', 'United States']} title='country' />
+        <SelectField
+          selections={['Canada', 'United States']}
+          title='country'
+          name='country'
+        />
       </div>
 
       <fieldset className='w-1/3'>

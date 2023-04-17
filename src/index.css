@@ -65,6 +65,18 @@ body {
   animation-fill-mode: forwards;
 }
 
+.login-icon-dropdown{
+  display:none;
+}
+
+.login-icon-dropdown:hover {
+  display: flex;
+}
+
+.login-icon:hover .login-icon-dropdown {
+  display: flex;
+}
+
 .form-radio-btn {
   -webkit-appearance: none;
   appearance: none;
@@ -326,8 +338,10 @@ body {
     background-repeat: no-repeat;
   }
   .header-columns {
-    display:flex;
-    justify-content:space-between;
+    /* display:flex; */
+    /* justify-content:space-between; */
+    grid-template-columns: 10% auto max-content;
+
   }
 
   .zx9-speaker-container {

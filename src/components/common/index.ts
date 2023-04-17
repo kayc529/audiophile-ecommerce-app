@@ -21,3 +21,4 @@ export { default as PricingRow } from './PricingRow';
 export { default as ModalContainer } from './ModalContainer';
 export { default as ModalShade } from './ModalShade';
 export { default as SelectField } from './SelectField';
+export { default as LoginRegisterIcon } from './LoginRegisterIcon';

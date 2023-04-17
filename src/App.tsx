@@ -13,6 +13,9 @@ import { useEffect } from 'react';
 import { setAnimations } from './utils/scrollingAnimation';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import LoginRegisterSharedLayout from './pages/LoginRegisterSharedLayout';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 Modal.setAppElement('#root');
 
@@ -53,6 +56,10 @@ const App = () => {
             <Route path='/product/:productId' element={<ProductDetailPage />} />
             <Route path='/checkout' element={<CheckoutPage />} />
             <Route path='/demo' element={<ComponentsDemoPage />} />
+          </Route>
+          <Route element={<LoginRegisterSharedLayout />}>
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/register' element={<RegisterPage />} />
           </Route>
           <Route path='/demo2' element={<ComponentsDemoPage />} />
         </Routes>

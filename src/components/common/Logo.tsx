@@ -6,6 +6,7 @@ export default function Logo() {
   const goToHomePage = () => {
     navigate('/');
   };
+
   return (
     <img
       className='w-max h-max cursor-pointer'

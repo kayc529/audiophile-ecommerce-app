@@ -1,11 +1,30 @@
 import { ERROR_MESSAGE } from './constants';
-import { InfoObject } from './interface';
+import { FormInfo, InfoObject } from './interface';
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const PHONE_NUMBER_REGEX =
   /^\+?([0-9]{0,3})\)?[-. ]?([0-9]{3,4})[-. ]?([0-9]{3,4})[-. ]([0-9]{3,4})$/;
 const EMONEY_NUMBER_REGEX = /^[0-9]{9}$/;
 const NUMBER_REGEX = /^[0-9]*$/;
+
+export const FIELD_NAMES = {
+  NAME: 'name',
+  EMAIL: 'email',
+  PHONE_NUMBER: 'phoneNumber',
+  SUITE: 'suite',
+  STREET: 'street',
+  CITY: 'city',
+  STATE: 'state',
+  POSTAL_CODE: 'postalCode',
+  COUNTRY: 'country',
+  PAYMENT_METHOD: 'paymentMethod',
+  E_MONEY_NUMBER: 'eMoneyNumber',
+  E_MONEY_PIN: 'eMoneyPin',
+  PASSWORD: 'password',
+  RETRY_PASSWORD: 'retryPassword',
+  FIRST_NAME: 'firstName',
+  LAST_NAME: 'lastName',
+};
 
 export const validateNotBlankField = (info?: InfoObject) => {
   if (!info || !info.value) {
@@ -92,4 +111,48 @@ export const validatePhoneNumber = (phoneNumberInfo?: InfoObject) => {
   }
 
   return phoneNumberInfo;
+};
+
+export const isInputFieldValid = (
+  field: string,
+  infoObject: InfoObject | undefined,
+  callback?: (newInfoObject: FormInfo) => any
+) => {
+  if (!infoObject) {
+    return false;
+  }
+
+  let newInfoObject: InfoObject = { ...infoObject };
+
+  switch (field) {
+    case FIELD_NAMES.PHONE_NUMBER:
+      newInfoObject = validatePhoneNumber(infoObject);
+      break;
+    case FIELD_NAMES.EMAIL:
+      newInfoObject = validateEmail(infoObject);
+      break;
+    case FIELD_NAMES.E_MONEY_NUMBER:
+      newInfoObject = validateEMoneyNumber(infoObject);
+      break;
+    case FIELD_NAMES.E_MONEY_PIN:
+      newInfoObject = validateNumberOnlyField(infoObject);
+      break;
+    case FIELD_NAMES.NAME:
+    case FIELD_NAMES.PASSWORD:
+    case FIELD_NAMES.STREET:
+    case FIELD_NAMES.CITY:
+    case FIELD_NAMES.STATE:
+    case FIELD_NAMES.POSTAL_CODE:
+    case FIELD_NAMES.COUNTRY:
+    case FIELD_NAMES.PAYMENT_METHOD:
+    default:
+      newInfoObject = validateNotBlankField(infoObject);
+      break;
+  }
+
+  if (callback) {
+    callback({ [field]: newInfoObject });
+  }
+
+  return !newInfoObject.isError;
 };

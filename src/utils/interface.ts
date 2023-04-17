@@ -44,18 +44,29 @@ export const isInfoObject = (object: any) => {
   return object.value;
 };
 
-export interface CheckoutFormInfo {
+export interface FormInfo {}
+export interface CheckoutFormInfo extends FormInfo {
   name?: InfoObject;
   email?: InfoObject;
   phoneNumber?: InfoObject;
-  address?: InfoObject;
-  zipCode?: InfoObject;
+  suite?: InfoObject;
+  street?: InfoObject;
   city?: InfoObject;
+  state?: InfoObject;
+  postalCode?: InfoObject;
   country?: InfoObject;
   paymentMethod?: InfoObject;
   //temporary
   eMoneyNumber?: InfoObject;
   eMoneyPin?: InfoObject;
+}
+
+export interface LoginRegisterFormInfo extends FormInfo {
+  email?: InfoObject;
+  password?: InfoObject;
+  retypePassword?: InfoObject;
+  firstName?: InfoObject;
+  lastName?: InfoObject;
 }
 
 export interface CartItem {
@@ -65,4 +76,34 @@ export interface CartItem {
   thumbnail: string;
   price: number;
   quantity: number;
+}
+
+export interface Address {
+  attn: string;
+  unit?: string;
+  street1: string;
+  street2?: string;
+  city: string;
+  zipCode: string;
+  country: string;
+}
+export interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  address?: Address;
+  role: string;
+}
+
+export interface Order {
+  id: string;
+  status: string;
+  items: CartItem[];
+  total: number;
+  paymentMethod: string;
+  shippingAddress: Address;
+  createdAt: Date;
+  shippedAt?: Date;
 }

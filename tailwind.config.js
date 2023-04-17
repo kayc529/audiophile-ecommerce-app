@@ -17,6 +17,7 @@ module.exports = {
         ashBlack: '#4C4C4C',
         mainGrey: '#F1F1F1',
         lightGrey: '#FAFAFA',
+        darkGrey: '#b3b3b3',
         errorRed: '#CD2C2C',
         transparentWhite: '#979797',
         modalShade: 'rgba(0,0,0,0.3)',

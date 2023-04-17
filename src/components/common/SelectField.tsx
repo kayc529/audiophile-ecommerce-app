@@ -4,7 +4,9 @@ import { CheckoutFormInfo } from '../../utils/interface';
 interface Props {
   selections: string[];
   title: string;
+  name: string;
   value?: string | undefined;
+  placeholder?: string;
   isError?: boolean;
   errorMsg?: string;
   onSelectionChange?: (newInfo: CheckoutFormInfo) => void;
@@ -13,14 +15,16 @@ interface Props {
 export default function SelectField({
   selections,
   title,
+  name,
   value = '',
+  placeholder = 'Select',
   isError = false,
   errorMsg = '',
   onSelectionChange,
 }: Props) {
   const optionChanged = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (onSelectionChange) {
-      let newInfo = { [title]: { value: e.target.value, isError: false } };
+      let newInfo = { [name]: { value: e.target.value, isError: false } };
       onSelectionChange(newInfo);
     }
   };
@@ -38,14 +42,14 @@ export default function SelectField({
         {isError && <p className='text-sm text-errorRed'>{errorMsg}</p>}
       </div>
       <select
-        className={`w-full h-button px-5 text-md rounded-lg border border-darkGrey focus:outline-none focus:border-darkOrange ${
+        className={`w-full h-[55px] px-5 text-md rounded-lg border border-darkGrey focus:outline-none focus:border-darkOrange ${
           isError ? 'border-errorRed' : ''
         }`}
         onChange={optionChanged}
         value={value}
       >
         <option value='' disabled selected>
-          Select your country
+          {placeholder}
         </option>
         {selections.map((selection) => {
           return (
