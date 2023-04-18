@@ -76,8 +76,10 @@ module.exports = {
         50: '200px',
       },
       width: {
+        25: '100px',
         30: '120px',
         100: '400px',
+        150: '600px',
         button: '160px',
         arrow: '5px',
         textField: '309px',

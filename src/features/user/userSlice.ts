@@ -1,19 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CartItem } from '../../utils/interface';
+import { CartItem, User } from '../../utils/interface';
 import {
   getCartFromLocalStorage,
   removeCartInLocalStorage,
   updateCartInLocalStorage,
 } from '../../utils/localStorageHelper';
+import { dummyUser } from '../../data/dummy-user';
 const _ = require('lodash');
 
 export interface UserInitialState {
   isLoading: boolean;
+  user: User;
   cartItems: CartItem[];
 }
 
 const initialState: UserInitialState = {
   isLoading: false,
+  user: dummyUser,
   cartItems: getCartFromLocalStorage(),
 };
 

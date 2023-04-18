@@ -12,7 +12,7 @@ const SharedLayout = () => {
   }, [location]);
 
   return (
-    <main className='w-full flex flex-col items-center'>
+    <main className='w-full min-h-screen flex flex-col items-center'>
       <Header />
       <Outlet />
       <Footer />

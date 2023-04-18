@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { PrimaryButton, SecondaryButton } from '../components/common';
 import LoginInputFields from '../components/login/LoginInputFields';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { LoginRegisterFormInfo } from '../utils/interface';
 import { FIELD_NAMES, isInputFieldValid } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
 import { initialLoginFormInfo } from '../data/initialValues';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store';
 
 export default function LoginPage() {
+  const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const [input, setInput] =
     useState<LoginRegisterFormInfo>(initialLoginFormInfo);
@@ -49,6 +52,11 @@ export default function LoginPage() {
       onInputChange
     );
   };
+
+  //if user is logged in, redirect to account page
+  if (user) {
+    return <Navigate to='/my-account/orders' replace={true} />;
+  }
 
   return (
     <section className='w-mainContentMobile py-20 flex justify-center md:w-mainContentTablet lg:w-full lg:max-w-mainContent'>

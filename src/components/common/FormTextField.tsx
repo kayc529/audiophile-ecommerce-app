@@ -3,7 +3,7 @@ import { FormInfo } from '../../utils/interface';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 interface FormTextFieldProps {
-  title: string;
+  title?: string;
   name: string;
   value?: string | undefined;
   inputType?: string;
@@ -16,7 +16,7 @@ interface FormTextFieldProps {
 }
 
 const FormTextField = ({
-  title,
+  title = '',
   name,
   value,
   inputType = 'text',

@@ -16,6 +16,10 @@ import { ToastContainer } from 'react-toastify';
 import LoginRegisterSharedLayout from './pages/LoginRegisterSharedLayout';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import UserAccountSharedLayout from './components/account/UserAccountSharedLayout';
+import OrdersPage from './pages/OrdersPage';
+import AccountInfoPage from './pages/AccountInfoPage';
+import SavedAddressesPage from './pages/SavedAddressesPage';
 
 Modal.setAppElement('#root');
 
@@ -55,6 +59,17 @@ const App = () => {
             <Route path='/speakers' element={<SpeakersPage />} />
             <Route path='/product/:productId' element={<ProductDetailPage />} />
             <Route path='/checkout' element={<CheckoutPage />} />
+            <Route element={<UserAccountSharedLayout />}>
+              <Route path='/my-account/orders' element={<OrdersPage />} />
+              <Route
+                path='/my-account/account-info'
+                element={<AccountInfoPage />}
+              />
+              <Route
+                path='/my-account/address'
+                element={<SavedAddressesPage />}
+              />
+            </Route>
             <Route path='/demo' element={<ComponentsDemoPage />} />
           </Route>
           <Route element={<LoginRegisterSharedLayout />}>

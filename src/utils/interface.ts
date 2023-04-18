@@ -56,7 +56,6 @@ export interface CheckoutFormInfo extends FormInfo {
   postalCode?: InfoObject;
   country?: InfoObject;
   paymentMethod?: InfoObject;
-  //temporary
   eMoneyNumber?: InfoObject;
   eMoneyPin?: InfoObject;
 }
@@ -67,6 +66,16 @@ export interface LoginRegisterFormInfo extends FormInfo {
   retypePassword?: InfoObject;
   firstName?: InfoObject;
   lastName?: InfoObject;
+}
+
+export interface AccountInfoFormInfo extends FormInfo {
+  firstName?: InfoObject;
+  lastName?: InfoObject;
+  newEmail?: InfoObject;
+  retypeEmail?: InfoObject;
+  currentPassword?: InfoObject;
+  newPassword?: InfoObject;
+  retypePassword?: InfoObject;
 }
 
 export interface CartItem {
@@ -84,7 +93,8 @@ export interface Address {
   street1: string;
   street2?: string;
   city: string;
-  zipCode: string;
+  state: string;
+  postalCode: string;
   country: string;
 }
 export interface User {
@@ -101,9 +111,13 @@ export interface Order {
   id: string;
   status: string;
   items: CartItem[];
-  total: number;
-  paymentMethod: string;
+  grandTotal: number;
+  subtotal: number;
+  tax: number;
+  shipping: number;
   shippingAddress: Address;
-  createdAt: Date;
-  shippedAt?: Date;
+  paymentMethod: string;
+  cardNumber?: string;
+  createdAt: string;
+  shippedAt?: string;
 }
