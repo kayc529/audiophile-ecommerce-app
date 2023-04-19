@@ -4,7 +4,6 @@ import PrimaryButton from './PrimaryButton';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store';
-import LoginUserDropdownMenuItem from './LoginUserDropdownMenuItem';
 import LoginUserDropdownMenu from './LoginUserDropdownMenu';
 import { closeAllModals } from '../../features/modal/modalSlice';
 

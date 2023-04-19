@@ -66,7 +66,7 @@ export default function AccountInfoPage() {
 
   return (
     <article className='w-full md:pl-10'>
-      <h2 className='pb-10 text-h3 leading-h3 tracking-h3'>
+      <h2 className='pb-10 text-h3 leading-h3 tracking-h3 font-bold'>
         Account Information
       </h2>
       <ul className='w-full flex flex-col lg:w-150'>

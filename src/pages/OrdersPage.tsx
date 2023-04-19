@@ -7,7 +7,7 @@ type Props = {};
 export default function OrdersPage({}: Props) {
   return (
     <article className='w-full md:pl-10'>
-      <h2 className='pb-10 text-h3 leading-h3 tracking-h3'>Orders</h2>
+      <h2 className='pb-10 text-h3 leading-h3 tracking-h3 font-bold'>Orders</h2>
       <ul className='w-full flex flex-col space-y-10'>
         {dummyOrders.map((order) => {
           return <OrderRecord key={order.id} order={order} />;
