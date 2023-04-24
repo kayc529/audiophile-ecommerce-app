@@ -33,11 +33,11 @@ export default function SavedAddress({
   };
 
   return (
-    <div className='relative w-auto p-8 flex flex-col justify-between border-[1px] border-black rounded-lg'>
+    <div className='relative w-auto h-[256px] p-8 flex flex-col justify-between border-[1px] border-black rounded-lg'>
       <div className='flex flex-col'>
         <p className='text-lg tracking-lg leading-lg'>{address.attn}</p>
         <p className='text-lg tracking-lg leading-lg'>
-          {address.street1} {address.unit}
+          {address.street} {address.unit}
         </p>
         <p className='text-lg tracking-lg leading-lg'>
           {address.city}, {address.state}

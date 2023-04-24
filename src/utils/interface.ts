@@ -45,16 +45,19 @@ export const isInfoObject = (object: any) => {
 };
 
 export interface FormInfo {}
-export interface CheckoutFormInfo extends FormInfo {
+
+export interface AddressFormInfo extends FormInfo {
   name?: InfoObject;
-  email?: InfoObject;
-  phoneNumber?: InfoObject;
-  suite?: InfoObject;
+  unit?: InfoObject;
   street?: InfoObject;
   city?: InfoObject;
   state?: InfoObject;
   postalCode?: InfoObject;
   country?: InfoObject;
+  phoneNumber?: InfoObject;
+}
+export interface CheckoutFormInfo extends AddressFormInfo {
+  email?: InfoObject;
   paymentMethod?: InfoObject;
   eMoneyNumber?: InfoObject;
   eMoneyPin?: InfoObject;
@@ -90,12 +93,12 @@ export interface CartItem {
 export interface Address {
   attn: string;
   unit?: string;
-  street1: string;
-  street2?: string;
+  street: string;
   city: string;
   state: string;
   postalCode: string;
   country: string;
+  phoneNumber: string;
   isDefault?: boolean;
 }
 export interface User {
@@ -104,7 +107,7 @@ export interface User {
   lastName: string;
   email: string;
   phoneNumber: string;
-  address?: Address;
+  defaultAddress?: Address;
   role: string;
 }
 

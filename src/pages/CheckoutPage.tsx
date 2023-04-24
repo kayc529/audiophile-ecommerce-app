@@ -2,8 +2,11 @@ import React, { useEffect, useState } from 'react';
 import CheckoutForm from '../components/checkout/CheckoutForm';
 import Summary from '../components/checkout/Summary';
 import { TertiaryButton } from '../components/common';
-import { CheckoutFormInfo, FormInfo } from '../utils/interface';
-import { initialCheckFormInfo } from '../data/initialValues';
+import { CheckoutFormInfo } from '../utils/interface';
+import {
+  initialCheckFormInfo,
+  initialAddressFormInfo,
+} from '../data/initialValues';
 import { Navigate, useNavigate } from 'react-router-dom';
 import OrderCompletedModal from '../components/checkout/OrderCompletedModal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +14,8 @@ import { RootState } from '../store';
 import { toggleOrderComplete } from '../features/modal/modalSlice';
 import { isInputFieldValid, FIELD_NAMES } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
+import { convertAddressToFormInfo } from '../utils/addressHelper';
+import { toggleIsUsingDefaultAddress } from '../features/user/userSlice';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
@@ -18,8 +23,29 @@ export default function CheckoutPage() {
   const { isOrderCompleteOpen } = useSelector(
     (state: RootState) => state.modal
   );
-  const { cartItems } = useSelector((state: RootState) => state.user);
+  const { cartItems, user, isUsingDefaultAddress } = useSelector(
+    (state: RootState) => state.user
+  );
   const [info, setInfo] = useState<CheckoutFormInfo>(initialCheckFormInfo);
+
+  useEffect(() => {
+    if (isUsingDefaultAddress) {
+      fillAddressFields();
+    } else {
+      emptyDefaultAddress();
+    }
+  }, [isUsingDefaultAddress]);
+
+  const fillAddressFields = () => {
+    if (user?.defaultAddress) {
+      let addressInfo = convertAddressToFormInfo(user.defaultAddress);
+      setInfo({ ...info, ...addressInfo });
+    }
+  };
+
+  const emptyDefaultAddress = () => {
+    setInfo({ ...info, ...initialAddressFormInfo });
+  };
 
   const onInputChange = (newInfo: CheckoutFormInfo) => {
     if (newInfo.country) {
@@ -33,6 +59,7 @@ export default function CheckoutPage() {
   const checkOut = (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
     console.log(info);
+
     if (!isFormInfoValid()) {
       toastMessage('Please check your input', TOAST_MESSAGE_TYPE.ERROR);
       return;
@@ -43,16 +70,18 @@ export default function CheckoutPage() {
   };
 
   const isFormInfoValid = (): boolean => {
+    const isEmailValid = user ? true : isEmailInfoValid();
+
     return (
       isNameInfoValid() &&
-      isEmailInfoValid() &&
       isPhoneNumberInfoValid() &&
       isStreetInfoValid() &&
       isCityInfoValid() &&
       isPostalCodeInfoValid() &&
       isCountryValid() &&
       isStateInfoValid() &&
-      isPaymentMethodValid()
+      isPaymentMethodValid() &&
+      isEmailValid
     );
   };
 
@@ -101,7 +130,7 @@ export default function CheckoutPage() {
       return isEMoneyNumberValid() && isEMoneyPinValid();
     }
 
-    return !isInputFieldValid(
+    return isInputFieldValid(
       FIELD_NAMES.PAYMENT_METHOD,
       info.paymentMethod,
       onInputChange
@@ -124,6 +153,14 @@ export default function CheckoutPage() {
     );
   };
 
+  const onDefaultAddressCheck = () => {
+    if (user?.defaultAddress) {
+      dispatch(toggleIsUsingDefaultAddress());
+      return;
+    }
+    toastMessage("You don't have a default address", TOAST_MESSAGE_TYPE.ERROR);
+  };
+
   const goBack = () => {
     navigate(-1);
   };
@@ -139,7 +176,11 @@ export default function CheckoutPage() {
       <article className='w-full max-w-mainContentMobile flex flex-col space-y-6 md:max-w-mainContentTablet lg:max-w-mainContent lg:space-y-10'>
         <TertiaryButton left={true} text='go back' onButtonClick={goBack} />
         <div className='flex flex-col space-y-8 lg:flex-row lg:space-x-7 lg:space-y-0'>
-          <CheckoutForm info={info} onInfoChange={onInputChange} />
+          <CheckoutForm
+            info={info}
+            onInfoChange={onInputChange}
+            onDefaultAddressCheck={onDefaultAddressCheck}
+          />
           <Summary onCheckOut={checkOut} />
         </div>
       </article>

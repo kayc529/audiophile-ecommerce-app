@@ -10,14 +10,16 @@ const _ = require('lodash');
 
 export interface UserInitialState {
   isLoading: boolean;
-  user: User;
+  user: User | undefined;
   cartItems: CartItem[];
+  isUsingDefaultAddress: boolean;
 }
 
 const initialState: UserInitialState = {
   isLoading: false,
   user: dummyUser,
   cartItems: getCartFromLocalStorage(),
+  isUsingDefaultAddress: false,
 };
 
 export const userSlice = createSlice({
@@ -71,6 +73,9 @@ export const userSlice = createSlice({
       removeCartInLocalStorage();
       return { ...state, cartItems: [] };
     },
+    toggleIsUsingDefaultAddress: (state) => {
+      return { ...state, isUsingDefaultAddress: !state.isUsingDefaultAddress };
+    },
   },
   extraReducers: {},
 });
@@ -79,5 +84,6 @@ export const {
   modifyCartItemQuantity,
   removeAllCartItems,
   removeItemFromCart,
+  toggleIsUsingDefaultAddress,
 } = userSlice.actions;
 export default userSlice.reducer;

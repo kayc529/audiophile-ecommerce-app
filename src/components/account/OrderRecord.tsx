@@ -68,9 +68,8 @@ export default function OrderRecord({ order }: Props) {
                 </p>
                 <p className='text-md'>{order.shippingAddress.attn}</p>
                 <p className='text-md'>
-                  {order.shippingAddress.street1} {order.shippingAddress.unit}
+                  {order.shippingAddress.street} {order.shippingAddress.unit}
                 </p>
-                <p className='text-md'>{order.shippingAddress.street2}</p>
                 <p className='text-md'>
                   {order.shippingAddress.city}, {order.shippingAddress.state}
                 </p>

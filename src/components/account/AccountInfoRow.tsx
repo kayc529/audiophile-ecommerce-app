@@ -4,7 +4,7 @@ import { MdOutlineModeEditOutline } from 'react-icons/md';
 interface Props {
   children: JSX.Element;
   name: string;
-  originalInfo: string;
+  originalInfo: string | undefined;
   isEditting?: boolean;
   onToggleEdit: (name: string) => void;
 }

@@ -15,7 +15,7 @@ export default function LoginUserDropdownMenu() {
       </LoginUserDropdownMenuItem>
       <LoginUserDropdownMenuItem
         title='account settings'
-        description='Contact info, addresses, password'
+        description='Contact info, password'
         link='account-info'
       >
         <FaRegAddressCard className='w-7 h-7' style={{ color: 'grey' }} />

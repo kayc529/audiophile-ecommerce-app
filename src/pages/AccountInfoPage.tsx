@@ -75,7 +75,7 @@ export default function AccountInfoPage() {
           onToggleEdit={onToggleEdit}
           name='name'
           isEditting={edittingField === 'name'}
-          originalInfo={user.firstName + ' ' + user.lastName}
+          originalInfo={user?.firstName + ' ' + user?.lastName}
         >
           <form className='flex flex-col'>
             <FormTextField
@@ -107,7 +107,7 @@ export default function AccountInfoPage() {
         {/* Email */}
         <AccountInfoRow
           name='email'
-          originalInfo={user.email}
+          originalInfo={user?.email}
           isEditting={edittingField === 'email'}
           onToggleEdit={onToggleEdit}
         >

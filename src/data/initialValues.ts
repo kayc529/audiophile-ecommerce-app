@@ -1,23 +1,12 @@
-import { CheckoutFormInfo, LoginRegisterFormInfo } from '../utils/interface';
+import {
+  AddressFormInfo,
+  CheckoutFormInfo,
+  LoginRegisterFormInfo,
+} from '../utils/interface';
 
 const initialInfoObjectValue = {
   value: '',
   isError: false,
-};
-
-export const initialCheckFormInfo: CheckoutFormInfo = {
-  name: initialInfoObjectValue,
-  email: initialInfoObjectValue,
-  phoneNumber: initialInfoObjectValue,
-  suite: initialInfoObjectValue,
-  street: initialInfoObjectValue,
-  city: initialInfoObjectValue,
-  state: initialInfoObjectValue,
-  postalCode: initialInfoObjectValue,
-  country: initialInfoObjectValue,
-  paymentMethod: initialInfoObjectValue,
-  eMoneyNumber: initialInfoObjectValue,
-  eMoneyPin: initialInfoObjectValue,
 };
 
 export const initialLoginFormInfo: LoginRegisterFormInfo = {
@@ -31,4 +20,23 @@ export const initialRegisterFormInfo: LoginRegisterFormInfo = {
   lastName: initialInfoObjectValue,
   password: initialInfoObjectValue,
   retypePassword: initialInfoObjectValue,
+};
+
+export const initialAddressFormInfo: AddressFormInfo = {
+  name: initialInfoObjectValue,
+  unit: initialInfoObjectValue,
+  street: initialInfoObjectValue,
+  city: initialInfoObjectValue,
+  state: initialInfoObjectValue,
+  postalCode: initialInfoObjectValue,
+  country: initialInfoObjectValue,
+  phoneNumber: initialInfoObjectValue,
+};
+
+export const initialCheckFormInfo: CheckoutFormInfo = {
+  ...initialAddressFormInfo,
+  email: initialInfoObjectValue,
+  paymentMethod: initialInfoObjectValue,
+  eMoneyNumber: initialInfoObjectValue,
+  eMoneyPin: initialInfoObjectValue,
 };

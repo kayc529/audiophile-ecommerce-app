@@ -32,6 +32,7 @@ export default function AccountSideBar() {
         {menuItems.map((menuItem) => {
           return (
             <li
+              key={menuItem}
               className='w-full border-b-[1px] last:border-transparent md:border-b-0'
               onClick={() => goToPage(menuItem)}
             >

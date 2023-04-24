@@ -10,6 +10,7 @@ interface Props {
   isError?: boolean;
   errorMsg?: string;
   onSelectionChange?: (newInfo: CheckoutFormInfo) => void;
+  isDisabled?: boolean;
 }
 
 export default function SelectField({
@@ -21,6 +22,7 @@ export default function SelectField({
   isError = false,
   errorMsg = '',
   onSelectionChange,
+  isDisabled = false,
 }: Props) {
   const optionChanged = (e: React.ChangeEvent<HTMLSelectElement>) => {
     if (onSelectionChange) {
@@ -47,6 +49,7 @@ export default function SelectField({
         }`}
         onChange={optionChanged}
         value={value}
+        disabled={isDisabled}
       >
         <option value='' disabled selected>
           {placeholder}

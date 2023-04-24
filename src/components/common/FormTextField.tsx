@@ -13,6 +13,7 @@ interface FormTextFieldProps {
   isError?: boolean;
   errorMsg?: string;
   onInputChange?: (info: FormInfo) => void;
+  isDisabled?: boolean;
 }
 
 const FormTextField = ({
@@ -26,6 +27,7 @@ const FormTextField = ({
   isError = false,
   errorMsg = '',
   onInputChange,
+  isDisabled = false,
 }: FormTextFieldProps) => {
   const [type, setType] = useState(inputType);
 
@@ -86,6 +88,7 @@ const FormTextField = ({
         maxLength={maxLength}
         value={value}
         onChange={onChange}
+        disabled={isDisabled}
       />
       {isPasswordField && getEyeIcon()}
     </div>

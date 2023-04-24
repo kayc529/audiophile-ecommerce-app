@@ -36,7 +36,7 @@ export default function LoginUserDropdownMenuItem({
         >
           {title}
         </p>
-        <p className='text-sm tracking-sm leading-sm opacity-60'>
+        <p className='text-sm tracking-sm leading-md opacity-60'>
           {description}
         </p>
       </div>

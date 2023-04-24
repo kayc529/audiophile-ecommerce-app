@@ -6,6 +6,8 @@ import {
   CHECKOUT_FORM_COUNTRIES,
   US_STATES,
 } from '../../utils/constants';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 interface Props {
   info?: CheckoutFormInfo;
@@ -13,26 +15,21 @@ interface Props {
 }
 
 export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
+  const { isUsingDefaultAddress } = useSelector(
+    (state: RootState) => state.user
+  );
   return (
     <div className='w-full flex flex-col space-y-6'>
-      {/* <FormTextField
-        title='address'
-        name='address'
-        placeholder='1137 Williams Avenue'
-        value={info?.address?.value}
-        isError={info?.address?.isError}
-        errorMsg={info?.address?.errorMsg}
-        onInputChange={onInfoChanged}
-      /> */}
       <div className='grid gap-y-6 md:grid-rows-2 md:grid-cols-2 md:gap-x-4'>
         <FormTextField
           title='Apt./Suite/Unit/Building (Optional)'
-          name='suite'
+          name='unit'
           placeholder='1201'
-          value={info?.suite?.value}
-          isError={info?.suite?.isError}
-          errorMsg={info?.suite?.errorMsg}
+          value={info?.unit?.value}
+          isError={info?.unit?.isError}
+          errorMsg={info?.unit?.errorMsg}
           onInputChange={onInfoChanged}
+          isDisabled={isUsingDefaultAddress}
         />
         <FormTextField
           title='Street address'
@@ -42,6 +39,7 @@ export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
           isError={info?.street?.isError}
           errorMsg={info?.street?.errorMsg}
           onInputChange={onInfoChanged}
+          isDisabled={isUsingDefaultAddress}
         />
         <FormTextField
           title='city'
@@ -51,6 +49,7 @@ export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
           isError={info?.city?.isError}
           errorMsg={info?.city?.errorMsg}
           onInputChange={onInfoChanged}
+          isDisabled={isUsingDefaultAddress}
         />
         {info?.country?.value ? (
           <SelectField
@@ -65,6 +64,7 @@ export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
             isError={info?.state?.isError}
             errorMsg={info?.state?.errorMsg}
             onSelectionChange={onInfoChanged}
+            isDisabled={isUsingDefaultAddress}
           />
         ) : (
           <div></div>
@@ -78,6 +78,7 @@ export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
           isError={info?.postalCode?.isError}
           errorMsg={info?.postalCode?.errorMsg}
           onInputChange={onInfoChanged}
+          isDisabled={isUsingDefaultAddress}
         />
         <SelectField
           selections={CHECKOUT_FORM_COUNTRIES}
@@ -88,6 +89,7 @@ export default function ShippingInfoFields({ info, onInfoChanged }: Props) {
           isError={info?.country?.isError}
           errorMsg={info?.country?.errorMsg}
           onSelectionChange={onInfoChanged}
+          isDisabled={isUsingDefaultAddress}
         />
       </div>
     </div>
