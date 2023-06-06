@@ -3,14 +3,15 @@ import { HiOutlineUserCircle } from 'react-icons/hi';
 import PrimaryButton from './PrimaryButton';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../store';
+import { AppDispatch, RootState } from '../../store';
 import LoginUserDropdownMenu from './LoginUserDropdownMenu';
 import { closeAllModals } from '../../features/modal/modalSlice';
+import { logoutUser } from '../../features/user/userSlice';
 
 export default function LoginRegisterIcon() {
   const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const goToRegister = () => {
     dispatch(closeAllModals());
@@ -20,6 +21,12 @@ export default function LoginRegisterIcon() {
   const goToLogin = () => {
     dispatch(closeAllModals());
     navigate('login');
+  };
+
+  const logout = () => {
+    if (user) {
+      dispatch(logoutUser());
+    }
   };
 
   return (
@@ -41,7 +48,7 @@ export default function LoginRegisterIcon() {
                 Hi, {user.firstName}!
               </h6>
               <LoginUserDropdownMenu />
-              <PrimaryButton text='logout' />
+              <PrimaryButton text='logout' onButtonClick={logout} />
             </div>
           ) : (
             <>

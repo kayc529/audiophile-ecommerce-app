@@ -3,11 +3,16 @@ import RegisterInputFields from '../components/login/RegisterInputFields';
 import { PrimaryButton, SecondaryButton } from '../components/common';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { initialRegisterFormInfo } from '../data/initialValues';
-import { InfoObject, LoginRegisterFormInfo } from '../utils/interface';
+import {
+  InfoObject,
+  LoginRegisterFormInfo,
+  RegisterUser,
+} from '../utils/interface';
 import { FIELD_NAMES, isInputFieldValid } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { registerUser } from '../features/user/userSlice';
 
 export default function RegisterPage() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -15,20 +20,29 @@ export default function RegisterPage() {
   const [input, setInput] = useState<LoginRegisterFormInfo>(
     initialRegisterFormInfo
   );
+  const dispatch: AppDispatch = useDispatch();
 
-  useEffect(() => {
-    console.log(input);
-  }, [input]);
-
-  const register = (e?: React.MouseEvent<HTMLElement>) => {
+  const register = async (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
     if (!isInputValid()) {
       toastMessage('Please check your input', TOAST_MESSAGE_TYPE.ERROR);
       return;
     }
 
-    //TODO create user api
-    toastMessage('Registered!', TOAST_MESSAGE_TYPE.SUCCESS);
+    let newUser: RegisterUser = {
+      firstName: input.firstName?.value,
+      lastName: input.lastName?.value,
+      email: input.email?.value,
+      password: input.password?.value,
+    };
+
+    //TODO
+    try {
+      await dispatch(registerUser(newUser)).unwrap();
+      toastMessage('Registered, welcome!', TOAST_MESSAGE_TYPE.SUCCESS);
+    } catch (error: any) {
+      toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
+    }
   };
 
   const goToLogin = (e?: React.MouseEvent<HTMLElement>) => {

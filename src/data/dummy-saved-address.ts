@@ -14,7 +14,7 @@ export const dummySavedAddresses: Address[] = [
   },
   {
     attn: 'John Doe',
-    unit: 'Unit 1201',
+    unit: 'Unit 104',
     street: '1137 Williams Avenue',
     city: 'New York',
     state: 'New York',

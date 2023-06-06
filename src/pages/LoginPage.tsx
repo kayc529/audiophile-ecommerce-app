@@ -6,25 +6,37 @@ import { LoginRegisterFormInfo } from '../utils/interface';
 import { FIELD_NAMES, isInputFieldValid } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
 import { initialLoginFormInfo } from '../data/initialValues';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
+import { loginUser } from '../features/user/userSlice';
 
 export default function LoginPage() {
   const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const [input, setInput] =
     useState<LoginRegisterFormInfo>(initialLoginFormInfo);
+  const dispatch: AppDispatch = useDispatch();
 
-  const login = (e?: React.MouseEvent<HTMLElement>) => {
+  const login = async (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
 
+    //validate input
     if (!isInputValid()) {
       toastMessage('Please check your input', TOAST_MESSAGE_TYPE.ERROR);
       return;
     }
 
-    //TODO login api
-    toastMessage('Logged in!', TOAST_MESSAGE_TYPE.SUCCESS);
+    try {
+      await dispatch(
+        loginUser({
+          email: input.email?.value,
+          password: input.password?.value,
+        })
+      ).unwrap();
+      toastMessage('Welcome!', TOAST_MESSAGE_TYPE.SUCCESS);
+    } catch (error: any) {
+      toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
+    }
   };
 
   const goToRegister = (e?: React.MouseEvent<HTMLElement>) => {

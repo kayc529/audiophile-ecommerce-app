@@ -108,6 +108,7 @@ export interface User {
   email: string;
   phoneNumber: string;
   defaultAddress?: Address;
+  addresses?: Address[];
   role: string;
 }
 
@@ -124,4 +125,20 @@ export interface Order {
   cardNumber?: string;
   createdAt: string;
   shippedAt?: string;
+}
+
+export interface ResponseError {
+  msg: string;
+}
+
+export interface RegisterUser {
+  firstName: string | undefined;
+  lastName: string | undefined;
+  password: string | undefined;
+  email: string | undefined;
+}
+
+export interface LoginCredentials {
+  email: string | undefined;
+  password: string | undefined;
 }
