@@ -74,10 +74,10 @@ export interface LoginRegisterFormInfo extends FormInfo {
 export interface AccountInfoFormInfo extends FormInfo {
   firstName?: InfoObject;
   lastName?: InfoObject;
-  newEmail?: InfoObject;
+  email?: InfoObject;
   retypeEmail?: InfoObject;
   currentPassword?: InfoObject;
-  newPassword?: InfoObject;
+  password?: InfoObject;
   retypePassword?: InfoObject;
 }
 
@@ -102,7 +102,7 @@ export interface Address {
   isDefault?: boolean;
 }
 export interface User {
-  id: string;
+  userId: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -141,4 +141,15 @@ export interface RegisterUser {
 export interface LoginCredentials {
   email: string | undefined;
   password: string | undefined;
+}
+
+export interface UpdateUserInfo {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  currentPassword?: string;
+  password?: string;
+  defaultAddress?: Address;
+  addresses?: Address[];
+  role?: string;
 }

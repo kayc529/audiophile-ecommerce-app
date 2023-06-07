@@ -7,6 +7,7 @@ import { AppDispatch, RootState } from '../../store';
 import LoginUserDropdownMenu from './LoginUserDropdownMenu';
 import { closeAllModals } from '../../features/modal/modalSlice';
 import { logoutUser } from '../../features/user/userSlice';
+import { TOAST_MESSAGE_TYPE, toastMessage } from '../../utils/toastHelper';
 
 export default function LoginRegisterIcon() {
   const { user } = useSelector((state: RootState) => state.user);
@@ -23,9 +24,15 @@ export default function LoginRegisterIcon() {
     navigate('login');
   };
 
-  const logout = () => {
+  const logout = async () => {
     if (user) {
-      dispatch(logoutUser());
+      try {
+        await dispatch(logoutUser()).unwrap();
+        toastMessage('Logged out!', TOAST_MESSAGE_TYPE.SUCCESS);
+      } catch (error: any) {
+        console.log(error);
+        toastMessage(error.msg, TOAST_MESSAGE_TYPE.SUCCESS);
+      }
     }
   };
 

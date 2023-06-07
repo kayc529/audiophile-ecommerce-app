@@ -7,6 +7,8 @@ import productSlice from './features/product/productSlice';
 export type AppDispatch = typeof store.dispatch;
 //root state type for useSelector
 export type RootState = ReturnType<typeof store.getState>;
+//type of store for axios interceptor
+export type Store = typeof store;
 
 export const store = configureStore({
   reducer: {

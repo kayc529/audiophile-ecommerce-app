@@ -1,3 +1,4 @@
+import { log } from 'console';
 import { ERROR_MESSAGE } from './constants';
 import { FormInfo, InfoObject } from './interface';
 
@@ -10,6 +11,7 @@ const NUMBER_REGEX = /^[0-9]*$/;
 export const FIELD_NAMES = {
   NAME: 'name',
   EMAIL: 'email',
+  RETYPE_EMAIL: 'retypeEmail',
   PHONE_NUMBER: 'phoneNumber',
   SUITE: 'suite',
   STREET: 'street',
@@ -21,7 +23,8 @@ export const FIELD_NAMES = {
   E_MONEY_NUMBER: 'eMoneyNumber',
   E_MONEY_PIN: 'eMoneyPin',
   PASSWORD: 'password',
-  RETRY_PASSWORD: 'retryPassword',
+  CURRENT_PASSWORD: 'currentPassword',
+  RETYPE_PASSWORD: 'retypePassword',
   FIRST_NAME: 'firstName',
   LAST_NAME: 'lastName',
 };
@@ -113,12 +116,55 @@ export const validatePhoneNumber = (phoneNumberInfo?: InfoObject) => {
   return phoneNumberInfo;
 };
 
+export const areValuesMatch = (
+  field: string,
+  comparingValue: string | number | undefined,
+  infoObject?: InfoObject,
+  callback?: (newInfoObject: FormInfo) => void
+) => {
+  if (!infoObject) {
+    if (callback) {
+      callback({
+        [field]: {
+          value: '',
+          isError: true,
+          errorMsg: 'Cannot be blank',
+        },
+      });
+    }
+    return false;
+  }
+
+  let isMatch = comparingValue === infoObject.value;
+
+  if (callback) {
+    callback({
+      [field]: {
+        value: infoObject.value,
+        isError: !isMatch,
+        errorMsg: isMatch ? '' : 'Two values do not match',
+      },
+    });
+  }
+
+  return isMatch;
+};
+
 export const isInputFieldValid = (
   field: string,
   infoObject: InfoObject | undefined,
   callback?: (newInfoObject: FormInfo) => any
 ) => {
   if (!infoObject) {
+    if (callback) {
+      callback({
+        [field]: {
+          value: undefined,
+          isError: true,
+          errorMsg: 'Canont be blank',
+        },
+      });
+    }
     return false;
   }
 
@@ -139,6 +185,7 @@ export const isInputFieldValid = (
       break;
     case FIELD_NAMES.NAME:
     case FIELD_NAMES.PASSWORD:
+    case FIELD_NAMES.CURRENT_PASSWORD:
     case FIELD_NAMES.STREET:
     case FIELD_NAMES.CITY:
     case FIELD_NAMES.STATE:

@@ -4,6 +4,7 @@ import {
   RegisterUser,
   User,
   LoginCredentials,
+  UpdateUserInfo,
 } from '../../utils/interface';
 import {
   getCartFromLocalStorage,
@@ -71,12 +72,34 @@ export const logoutUser = createAsyncThunk(
       const res = await customFetch.get('/auth/logout');
       return res.data;
     } catch (error: any) {
-      let errMsg = error.response.data.msg || 'Something went wrong';
-      console.log(errMsg);
-      return thunkApi.rejectWithValue(errMsg);
+      console.log('logout:', error);
+      return thunkApi.rejectWithValue({
+        success: false,
+        msg: error.response.data.msg,
+      });
     }
   }
 );
+
+export const updateUserInfo = createAsyncThunk<
+  { success: boolean; user: User },
+  { userId: string; user: UpdateUserInfo },
+  { rejectValue: { success: boolean; msg: string } }
+>('user/updateUserInfo', async (userInfo, thunkApi) => {
+  try {
+    const res = await customFetch.patch(
+      `/user/${userInfo.userId}`,
+      userInfo.user
+    );
+    return res.data;
+  } catch (error: any) {
+    console.log(error);
+    return thunkApi.rejectWithValue({
+      success: false,
+      msg: error.response.data.msg,
+    });
+  }
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -134,6 +157,7 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //Login
     builder.addCase(loginUser.pending, (state) => {
       state.isLoading = true;
       state.user = undefined;
@@ -147,6 +171,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.user = undefined;
     });
+    //Register
     builder.addCase(registerUser.pending, (state) => {
       state.isLoading = true;
       state.user = undefined;
@@ -160,6 +185,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.user = undefined;
     });
+    //Logout
     builder.addCase(logoutUser.pending, (state) => {
       state.isLoading = true;
     });
@@ -169,6 +195,18 @@ export const userSlice = createSlice({
       state.user = undefined;
     });
     builder.addCase(logoutUser.rejected, (state) => {
+      state.isLoading = false;
+    });
+    //Update User Info
+    builder.addCase(updateUserInfo.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateUserInfo.fulfilled, (state, { payload }) => {
+      storeUserInfoInLocalStorage(payload.user);
+      state.isLoading = false;
+      state.user = payload.user;
+    });
+    builder.addCase(updateUserInfo.rejected, (state) => {
       state.isLoading = false;
     });
   },

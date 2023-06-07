@@ -1,20 +1,33 @@
 import React, { useState } from 'react';
 import AccountInfoRow from '../components/account/AccountInfoRow';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../store';
 import {
   FormTextField,
   PrimaryButton,
   SecondaryButton,
 } from '../components/common';
 import { AccountInfoFormInfo } from '../utils/interface';
+import {
+  FIELD_NAMES,
+  isInputFieldValid,
+  areValuesMatch,
+} from '../utils/formValidationHelper';
+import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
+import { updateUserInfo } from '../features/user/userSlice';
+import { convertAccountInfoToUpdateUserInfoObject } from '../utils/accountInfoHelper';
 
 export default function AccountInfoPage() {
   const { user } = useSelector((state: RootState) => state.user);
   const [edittingField, setEdittingField] = useState<string | undefined>(
     undefined
   );
-  const [input, setInput] = useState<AccountInfoFormInfo>({});
+  const initialInputValue = {
+    firstName: { value: user?.firstName || '', isError: false },
+    lastName: { value: user?.lastName || '', isError: false },
+  };
+  const [input, setInput] = useState<AccountInfoFormInfo>(initialInputValue);
+  const dispatch: AppDispatch = useDispatch();
 
   const onToggleEdit = (
     edittingFieldName: string,
@@ -22,6 +35,7 @@ export default function AccountInfoPage() {
   ) => {
     e?.preventDefault();
 
+    console.log('editting field name:', edittingFieldName);
     if (!edittingFieldName) {
       setEdittingField(undefined);
       return;
@@ -34,7 +48,7 @@ export default function AccountInfoPage() {
     }
 
     //clear the previous input to prevent unwanted updates
-    setInput({});
+    setInput(initialInputValue);
   };
 
   const onInputChange = (newInput: AccountInfoFormInfo) => {
@@ -42,26 +56,94 @@ export default function AccountInfoPage() {
     setInput(temp);
   };
 
-  const updateAccountInfo = (e?: React.MouseEvent<HTMLElement>) => {
+  const updateAccountInfo = async (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
 
     if (!isInputValid()) {
+      toastMessage('Please check your input', TOAST_MESSAGE_TYPE.ERROR);
       return;
     }
 
-    //update user info api
+    try {
+      //generate UpdateUserInfo obj
+      let newUserInfo = convertAccountInfoToUpdateUserInfoObject(input);
+      console.log(newUserInfo);
+
+      await dispatch(
+        updateUserInfo({ userId: user?.userId || '', user: newUserInfo })
+      ).unwrap();
+
+      toastMessage('Account Info Updated!', TOAST_MESSAGE_TYPE.SUCCESS);
+      setEdittingField(undefined);
+    } catch (error: any) {
+      console.log('Update aacount info', error);
+      toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
+    }
   };
 
   const isInputValid = (): boolean => {
     if (edittingField === 'name') {
-      //check firstname and lastname
+      //check first name and last name
+      return areNameFieldsValid();
     } else if (edittingField === 'email') {
       //check email and retype email
+      return areEmailFieldsValid();
     } else if (edittingField === 'password') {
       //check current password, new password and retype password
+      return arePasswordFieldsValid();
     }
 
     return false;
+  };
+
+  const showErrorMessage = (infoAfterValidation: AccountInfoFormInfo) => {
+    console.log(infoAfterValidation);
+
+    setInput((prev) => ({ ...prev, ...infoAfterValidation }));
+  };
+
+  const areNameFieldsValid = () => {
+    return (
+      isInputFieldValid(
+        FIELD_NAMES.FIRST_NAME,
+        input.firstName,
+        showErrorMessage
+      ) &&
+      isInputFieldValid(FIELD_NAMES.LAST_NAME, input.lastName, showErrorMessage)
+    );
+  };
+
+  const areEmailFieldsValid = () => {
+    return (
+      isInputFieldValid(FIELD_NAMES.EMAIL, input.email, showErrorMessage) &&
+      areValuesMatch(
+        FIELD_NAMES.RETYPE_EMAIL,
+        input.email?.value,
+        input.retypeEmail,
+        showErrorMessage
+      )
+    );
+  };
+
+  const arePasswordFieldsValid = () => {
+    return (
+      isInputFieldValid(
+        FIELD_NAMES.CURRENT_PASSWORD,
+        input.currentPassword,
+        showErrorMessage
+      ) &&
+      isInputFieldValid(
+        FIELD_NAMES.PASSWORD,
+        input.password,
+        showErrorMessage
+      ) &&
+      areValuesMatch(
+        FIELD_NAMES.RETYPE_PASSWORD,
+        input.password?.value,
+        input.retypePassword,
+        showErrorMessage
+      )
+    );
   };
 
   return (
@@ -77,10 +159,10 @@ export default function AccountInfoPage() {
           isEditting={edittingField === 'name'}
           originalInfo={user?.firstName + ' ' + user?.lastName}
         >
-          <form className='flex flex-col'>
+          <form className='flex flex-col space-y-4'>
             <FormTextField
               name='firstName'
-              placeholder='First Name'
+              title='first name'
               value={input.firstName?.value}
               isError={input.firstName?.isError}
               errorMsg={input.firstName?.errorMsg}
@@ -88,7 +170,7 @@ export default function AccountInfoPage() {
             />
             <FormTextField
               name='lastName'
-              placeholder='Last Name'
+              title='last name'
               value={input.lastName?.value}
               isError={input.lastName?.isError}
               errorMsg={input.lastName?.errorMsg}
@@ -111,18 +193,18 @@ export default function AccountInfoPage() {
           isEditting={edittingField === 'email'}
           onToggleEdit={onToggleEdit}
         >
-          <form className='flex flex-col'>
+          <form className='flex flex-col space-y-4'>
             <FormTextField
-              name='newEmail'
-              placeholder='Email'
-              value={input.newEmail?.value}
-              isError={input.newEmail?.isError}
-              errorMsg={input.newEmail?.errorMsg}
+              name='email'
+              title='new email'
+              value={input.email?.value}
+              isError={input.email?.isError}
+              errorMsg={input.email?.errorMsg}
               onInputChange={onInputChange}
             />
             <FormTextField
               name='retypeEmail'
-              placeholder='Confirm Email'
+              title='confirm email'
               value={input.retypeEmail?.value}
               isError={input.retypeEmail?.isError}
               errorMsg={input.retypeEmail?.errorMsg}
@@ -145,30 +227,35 @@ export default function AccountInfoPage() {
           isEditting={edittingField === 'password'}
           onToggleEdit={onToggleEdit}
         >
-          <form className='flex flex-col'>
+          <form className='flex flex-col space-y-4'>
             <FormTextField
               name='currentPassword'
-              placeholder='Current Password'
+              title='current password'
               value={input.currentPassword?.value}
               isError={input.currentPassword?.isError}
               errorMsg={input.currentPassword?.errorMsg}
               onInputChange={onInputChange}
+              isPasswordField={true}
+              inputType='password'
             />
             <FormTextField
-              name='newPassword'
-              placeholder='New Password'
-              value={input.newPassword?.value}
-              isError={input.newPassword?.isError}
-              errorMsg={input.newPassword?.errorMsg}
+              name='password'
+              title='new password'
+              value={input.password?.value}
+              isError={input.password?.isError}
+              errorMsg={input.password?.errorMsg}
               onInputChange={onInputChange}
+              isPasswordField={true}
+              inputType='password'
             />
             <FormTextField
               name='retypePassword'
-              placeholder='Confirm Password'
+              title='confirm new password'
               value={input.retypePassword?.value}
               isError={input.retypePassword?.isError}
               errorMsg={input.retypePassword?.errorMsg}
               onInputChange={onInputChange}
+              inputType='password'
             />
             <div className='pt-6 flex space-x-4'>
               <SecondaryButton
