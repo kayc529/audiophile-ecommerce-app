@@ -91,6 +91,7 @@ export interface CartItem {
 }
 
 export interface Address {
+  _id: string;
   attn: string;
   unit?: string;
   street: string;

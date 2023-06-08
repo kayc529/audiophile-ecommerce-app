@@ -13,6 +13,7 @@ export const dummyOrders: Order[] = [
     paymentMethod: 'emoney',
     cardNumber: '*****1234',
     shippingAddress: {
+      _id: '123',
       attn: 'John Doe',
       unit: 'Unit 1201',
       street: '1137 Williams Avenue',
@@ -34,6 +35,7 @@ export const dummyOrders: Order[] = [
     shipping: 50,
     paymentMethod: 'cash',
     shippingAddress: {
+      _id: '124',
       attn: 'John Doe',
       unit: 'Unit 1201',
       street: '1137 Williams Avenue',

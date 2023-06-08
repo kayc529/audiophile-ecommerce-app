@@ -5,6 +5,7 @@ import {
   User,
   LoginCredentials,
   UpdateUserInfo,
+  Address,
 } from '../../utils/interface';
 import {
   getCartFromLocalStorage,
@@ -15,6 +16,7 @@ import {
   updateCartInLocalStorage,
 } from '../../utils/localStorageHelper';
 import customFetch from '../../utils/customFetch';
+import { RootState } from '../../store';
 const _ = require('lodash');
 
 export interface UserInitialState {
@@ -22,6 +24,8 @@ export interface UserInitialState {
   user: User | undefined;
   cartItems: CartItem[];
   isUsingDefaultAddress: boolean;
+  defaultAddress: Address | undefined;
+  addresses: Address[];
 }
 
 const initialState: UserInitialState = {
@@ -29,6 +33,8 @@ const initialState: UserInitialState = {
   user: getUserInfoFromLocalStorage(),
   cartItems: getCartFromLocalStorage(),
   isUsingDefaultAddress: false,
+  defaultAddress: undefined,
+  addresses: [],
 };
 
 export const loginUser = createAsyncThunk<
@@ -91,6 +97,59 @@ export const updateUserInfo = createAsyncThunk<
       `/user/${userInfo.userId}`,
       userInfo.user
     );
+    return res.data;
+  } catch (error: any) {
+    console.log(error);
+    return thunkApi.rejectWithValue({
+      success: false,
+      msg: error.response.data.msg,
+    });
+  }
+});
+
+export const getUserAddresses = createAsyncThunk(
+  'user/getUserAddresses',
+  async (userId: string | undefined, thunkApi) => {
+    try {
+      const res = await customFetch.get(`/user/addresses/${userId}`);
+      return res.data;
+    } catch (error: any) {
+      console.log(error);
+      return thunkApi.rejectWithValue({
+        success: false,
+        msg: error.response.data.msg,
+      });
+    }
+  }
+);
+
+export const updateUserAddresses = createAsyncThunk<
+  { success: boolean; user: User },
+  { userId: string; address: Address },
+  { state: RootState }
+>('user/updateUserAddresses', async (userInfo, thunkApi) => {
+  try {
+    const res = await customFetch.patch(
+      `/user/addresses/${userInfo.userId}`,
+      userInfo
+    );
+    return res.data;
+  } catch (error: any) {
+    console.log(error);
+    return thunkApi.rejectWithValue({
+      success: false,
+      msg: error.response.data.msg,
+    });
+  }
+});
+
+export const deleteUserAddress = createAsyncThunk<
+  { success: boolean; user: UpdateUserInfo },
+  string,
+  { state: RootState }
+>('user/deleteUserAddress', async (addressId, thunkApi) => {
+  try {
+    const res = await customFetch.delete(`/user/addresses/${addressId}`);
     return res.data;
   } catch (error: any) {
     console.log(error);
@@ -207,6 +266,42 @@ export const userSlice = createSlice({
       state.user = payload.user;
     });
     builder.addCase(updateUserInfo.rejected, (state) => {
+      state.isLoading = false;
+    });
+    //Get user addresses
+    builder.addCase(getUserAddresses.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getUserAddresses.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.defaultAddress = payload.user.defaultAddress;
+      state.addresses = payload.user.addresses;
+    });
+    builder.addCase(getUserAddresses.rejected, (state) => {
+      state.isLoading = false;
+    });
+    //Update user addresses
+    builder.addCase(updateUserAddresses.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateUserAddresses.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.defaultAddress = payload.user.defaultAddress;
+      state.addresses = payload.user.addresses || [];
+    });
+    builder.addCase(updateUserAddresses.rejected, (state) => {
+      state.isLoading = false;
+    });
+    //Delete user addresses
+    builder.addCase(deleteUserAddress.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(deleteUserAddress.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.defaultAddress = payload.user.defaultAddress;
+      state.addresses = payload.user.addresses || [];
+    });
+    builder.addCase(deleteUserAddress.rejected, (state) => {
       state.isLoading = false;
     });
   },

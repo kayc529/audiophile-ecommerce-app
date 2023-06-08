@@ -15,7 +15,7 @@ import {
 } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
 import { updateUserInfo } from '../features/user/userSlice';
-import { convertAccountInfoToUpdateUserInfoObject } from '../utils/accountInfoHelper';
+import { convertAccountInfoToUpdateUserInfoObject } from '../utils/UpdateInfoHelper';
 
 export default function AccountInfoPage() {
   const { user } = useSelector((state: RootState) => state.user);

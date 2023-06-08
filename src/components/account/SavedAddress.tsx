@@ -1,8 +1,9 @@
 import React from 'react';
 import { Address } from '../../utils/interface';
-import { MdOutlineModeEditOutline } from 'react-icons/md';
+
 interface Props {
   address: Address;
+  isDefault?: boolean;
   onEdit?: (address: Address) => void;
   onRemove?: (address: Address) => void;
   onSetAsDefault?: (address: Address) => void;
@@ -13,6 +14,7 @@ export default function SavedAddress({
   onRemove,
   onSetAsDefault,
   address,
+  isDefault = false,
 }: Props) {
   const editAddress = () => {
     if (onEdit) {
@@ -44,7 +46,7 @@ export default function SavedAddress({
         </p>
         <p className='text-lg tracking-lg leading-lg'>{address.postalCode}</p>
         <p className='text-lg tracking-lg leading-lg'>{address.country}</p>
-        {address.isDefault && (
+        {isDefault && (
           <p className='text-lg tracking-lg leading-lg opacity-50'>
             Default shipping address
           </p>
@@ -64,7 +66,7 @@ export default function SavedAddress({
         >
           Remove
         </p>
-        {address.isDefault || (
+        {isDefault || (
           <>
             <span>|</span>
             <p

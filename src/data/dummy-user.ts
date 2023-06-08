@@ -7,6 +7,7 @@ export const dummyUser: User = {
   lastName: 'Doe',
   phoneNumber: '+1 123-123-1234',
   defaultAddress: {
+    _id: '123',
     attn: 'John Doe',
     unit: 'Unit 1201',
     street: '190 Borough Dr',
