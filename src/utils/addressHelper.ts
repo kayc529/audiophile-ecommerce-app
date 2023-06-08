@@ -14,3 +14,30 @@ export const convertAddressToFormInfo = (address: Address): AddressFormInfo => {
 
   return formInfo;
 };
+
+export const reorderAddresses = (
+  defaultAddress: Address | undefined,
+  originalAddresses?: Address[] | undefined
+): { defaultAddress: Address | undefined; addresses: Address[] } => {
+  if (!defaultAddress || !originalAddresses) {
+    return { defaultAddress: undefined, addresses: [] };
+  }
+
+  for (let i = 0; i < originalAddresses.length; i++) {
+    //found the default address in the array
+    if (originalAddresses[i]._id === defaultAddress._id) {
+      //no need to change if the default address is already
+      //in the first position of the array
+      if (i === 0) {
+        break;
+      }
+      //move the default array to the first position
+      let temp = originalAddresses[0];
+      originalAddresses[0] = originalAddresses[i];
+      originalAddresses[i] = temp;
+      break;
+    }
+  }
+
+  return { defaultAddress, addresses: originalAddresses };
+};

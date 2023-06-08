@@ -17,6 +17,7 @@ import {
 } from '../../utils/localStorageHelper';
 import customFetch from '../../utils/customFetch';
 import { RootState } from '../../store';
+import { reorderAddresses } from '../../utils/addressHelper';
 const _ = require('lodash');
 
 export interface UserInitialState {
@@ -71,21 +72,22 @@ export const registerUser = createAsyncThunk<
   }
 });
 
-export const logoutUser = createAsyncThunk(
-  'user/logout',
-  async (_, thunkApi) => {
-    try {
-      const res = await customFetch.get('/auth/logout');
-      return res.data;
-    } catch (error: any) {
-      console.log('logout:', error);
-      return thunkApi.rejectWithValue({
-        success: false,
-        msg: error.response.data.msg,
-      });
-    }
+export const logoutUser = createAsyncThunk<
+  { success: boolean },
+  void,
+  { rejectValue: { success: boolean; msg: string } }
+>('user/logout', async (_, thunkApi) => {
+  try {
+    const res = await customFetch.get('/auth/logout');
+    return res.data;
+  } catch (error: any) {
+    console.log('logout:', error);
+    return thunkApi.rejectWithValue({
+      success: false,
+      msg: error.response.data.msg,
+    });
   }
-);
+});
 
 export const updateUserInfo = createAsyncThunk<
   { success: boolean; user: User },
@@ -146,7 +148,7 @@ export const updateUserAddresses = createAsyncThunk<
 export const deleteUserAddress = createAsyncThunk<
   { success: boolean; user: UpdateUserInfo },
   string,
-  { state: RootState }
+  { rejectValue: { success: boolean; msg: string } }
 >('user/deleteUserAddress', async (addressId, thunkApi) => {
   try {
     const res = await customFetch.delete(`/user/addresses/${addressId}`);
@@ -274,8 +276,12 @@ export const userSlice = createSlice({
     });
     builder.addCase(getUserAddresses.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.defaultAddress = payload.user.defaultAddress;
-      state.addresses = payload.user.addresses;
+      const { defaultAddress, addresses } = reorderAddresses(
+        payload.user.defaultAddress,
+        payload.user.addresses
+      );
+      state.defaultAddress = defaultAddress;
+      state.addresses = addresses;
     });
     builder.addCase(getUserAddresses.rejected, (state) => {
       state.isLoading = false;
@@ -286,8 +292,12 @@ export const userSlice = createSlice({
     });
     builder.addCase(updateUserAddresses.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.defaultAddress = payload.user.defaultAddress;
-      state.addresses = payload.user.addresses || [];
+      const { defaultAddress, addresses } = reorderAddresses(
+        payload.user.defaultAddress,
+        payload.user.addresses
+      );
+      state.defaultAddress = defaultAddress;
+      state.addresses = addresses;
     });
     builder.addCase(updateUserAddresses.rejected, (state) => {
       state.isLoading = false;
@@ -298,8 +308,12 @@ export const userSlice = createSlice({
     });
     builder.addCase(deleteUserAddress.fulfilled, (state, { payload }) => {
       state.isLoading = false;
-      state.defaultAddress = payload.user.defaultAddress;
-      state.addresses = payload.user.addresses || [];
+      const { defaultAddress, addresses } = reorderAddresses(
+        payload.user.defaultAddress,
+        payload.user.addresses
+      );
+      state.defaultAddress = defaultAddress;
+      state.addresses = addresses;
     });
     builder.addCase(deleteUserAddress.rejected, (state) => {
       state.isLoading = false;

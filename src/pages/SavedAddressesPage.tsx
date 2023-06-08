@@ -102,7 +102,8 @@ export default function SavedAddressesPage() {
       newAddress._id = currentAddress?._id || '';
       await dispatch(
         updateUserAddresses({ userId: user?.userId || '', address: newAddress })
-      );
+      ).unwrap();
+
       toggleEditAddress();
       toastMessage('Address updated', TOAST_MESSAGE_TYPE.SUCCESS);
     } catch (error: any) {
@@ -122,7 +123,7 @@ export default function SavedAddressesPage() {
 
       await dispatch(
         updateUserAddresses({ userId: user?.userId || '', address: newAddress })
-      );
+      ).unwrap();
 
       toggleNewAddress();
       toastMessage('Address added', TOAST_MESSAGE_TYPE.SUCCESS);
@@ -137,7 +138,7 @@ export default function SavedAddressesPage() {
 
   const removeAddress = async (address: Address) => {
     try {
-      await dispatch(deleteUserAddress(address._id));
+      await dispatch(deleteUserAddress(address._id)).unwrap();
       toastMessage('Address removed', TOAST_MESSAGE_TYPE.SUCCESS);
       //update address
       getAddresses();
@@ -154,7 +155,7 @@ export default function SavedAddressesPage() {
           userId: user?.userId || '',
           user: { defaultAddress: address },
         })
-      );
+      ).unwrap();
       toastMessage('Default address updated', TOAST_MESSAGE_TYPE.SUCCESS);
       //update address
       getAddresses();
@@ -263,7 +264,7 @@ export default function SavedAddressesPage() {
       {/* Add shipping address button */}
       {isNew ? (
         <>
-          <h4 className='pb-6 capitalize text-h5 tracking-h5'>
+          <h4 className='w-min pb-6 capitalize text-h5 tracking-h5'>
             add new address
           </h4>
           <AddressInfoFields

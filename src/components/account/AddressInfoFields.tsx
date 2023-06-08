@@ -1,5 +1,5 @@
 import React from 'react';
-import { Address, AddressFormInfo, FormInfo } from '../../utils/interface';
+import { AddressFormInfo } from '../../utils/interface';
 import {
   FormTextField,
   PrimaryButton,

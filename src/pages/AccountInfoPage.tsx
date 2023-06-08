@@ -35,7 +35,6 @@ export default function AccountInfoPage() {
   ) => {
     e?.preventDefault();
 
-    console.log('editting field name:', edittingFieldName);
     if (!edittingFieldName) {
       setEdittingField(undefined);
       return;

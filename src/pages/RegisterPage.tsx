@@ -38,7 +38,12 @@ export default function RegisterPage() {
 
     //TODO
     try {
-      await dispatch(registerUser(newUser)).unwrap();
+      const result: any = await dispatch(registerUser(newUser)).unwrap();
+      if (!result.payload.success) {
+        toastMessage(result.payload.msg, TOAST_MESSAGE_TYPE.ERROR);
+        return;
+      }
+
       toastMessage('Registered, welcome!', TOAST_MESSAGE_TYPE.SUCCESS);
     } catch (error: any) {
       toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);

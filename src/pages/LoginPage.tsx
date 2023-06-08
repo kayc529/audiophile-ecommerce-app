@@ -33,6 +33,7 @@ export default function LoginPage() {
           password: input.password?.value,
         })
       ).unwrap();
+
       toastMessage('Welcome!', TOAST_MESSAGE_TYPE.SUCCESS);
     } catch (error: any) {
       toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);

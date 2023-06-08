@@ -7,7 +7,7 @@ interface Props {
 export default function AddShippingAddressButton({ onButtonClick }: Props) {
   return (
     <div
-      className='mt-8 flex items-center cursor-pointer'
+      className='w-max mt-8 flex items-center cursor-pointer'
       onClick={onButtonClick}
     >
       <AiOutlinePlus className='w-6 h-6' />
