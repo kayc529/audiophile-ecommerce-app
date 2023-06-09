@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AccountInfoRow from '../components/account/AccountInfoRow';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import {
   FormTextField,
+  PasswordFieldWithValidator,
   PrimaryButton,
   SecondaryButton,
 } from '../components/common';
@@ -66,7 +67,6 @@ export default function AccountInfoPage() {
     try {
       //generate UpdateUserInfo obj
       let newUserInfo = convertAccountInfoToUpdateUserInfoObject(input);
-      console.log(newUserInfo);
 
       await dispatch(
         updateUserInfo({ userId: user?.userId || '', user: newUserInfo })
@@ -130,13 +130,13 @@ export default function AccountInfoPage() {
         showErrorMessage
       ) &&
       isInputFieldValid(
-        FIELD_NAMES.PASSWORD,
-        input.password,
+        FIELD_NAMES.NEW_PASSWORD,
+        input.newPassword,
         showErrorMessage
       ) &&
       areValuesMatch(
         FIELD_NAMES.RETYPE_PASSWORD,
-        input.password?.value,
+        input.newPassword?.value,
         input.retypePassword,
         showErrorMessage
       )
@@ -242,14 +242,13 @@ export default function AccountInfoPage() {
               isPasswordField={true}
               inputType='password'
             />
-            <FormTextField
-              name='password'
+            <PasswordFieldWithValidator
+              name='newPassword'
               title='new password'
-              value={input.password?.value}
-              isError={input.password?.isError}
-              errorMsg={input.password?.errorMsg}
+              value={input.newPassword?.value}
+              isError={input.newPassword?.isError}
+              errorMsg={input.newPassword?.errorMsg}
               onInputChange={onInputChange}
-              isPasswordField={true}
               inputType='password'
             />
             <FormTextField

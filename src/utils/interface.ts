@@ -66,6 +66,7 @@ export interface CheckoutFormInfo extends AddressFormInfo {
 export interface LoginRegisterFormInfo extends FormInfo {
   email?: InfoObject;
   password?: InfoObject;
+  newPassword?: InfoObject;
   retypePassword?: InfoObject;
   firstName?: InfoObject;
   lastName?: InfoObject;
@@ -78,6 +79,7 @@ export interface AccountInfoFormInfo extends FormInfo {
   retypeEmail?: InfoObject;
   currentPassword?: InfoObject;
   password?: InfoObject;
+  newPassword?: InfoObject;
   retypePassword?: InfoObject;
 }
 

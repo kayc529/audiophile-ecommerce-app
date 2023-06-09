@@ -1,6 +1,6 @@
-import { log } from 'console';
 import { ERROR_MESSAGE } from './constants';
 import { FormInfo, InfoObject } from './interface';
+import { isCorrectPasswordFormat } from './passwordHelper';
 
 const EMAIL_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 const PHONE_NUMBER_REGEX =
@@ -23,6 +23,7 @@ export const FIELD_NAMES = {
   E_MONEY_NUMBER: 'eMoneyNumber',
   E_MONEY_PIN: 'eMoneyPin',
   PASSWORD: 'password',
+  NEW_PASSWORD: 'newPassword',
   CURRENT_PASSWORD: 'currentPassword',
   RETYPE_PASSWORD: 'retypePassword',
   FIRST_NAME: 'firstName',
@@ -36,6 +37,26 @@ export const validateNotBlankField = (info?: InfoObject) => {
       isError: true,
       errorMsg: ERROR_MESSAGE.BLANK,
     };
+  } else {
+    info.isError = false;
+    info.errorMsg = '';
+  }
+
+  return info;
+};
+
+export const validateNewPassword = (info?: InfoObject) => {
+  const correctFormat = isCorrectPasswordFormat(info?.value);
+
+  if (!info || !info.value) {
+    info = {
+      value: '',
+      isError: true,
+      errorMsg: ERROR_MESSAGE.BLANK,
+    };
+  } else if (!correctFormat) {
+    info.isError = true;
+    info.errorMsg = ERROR_MESSAGE.INVALID_FORMAT;
   } else {
     info.isError = false;
     info.errorMsg = '';
@@ -182,6 +203,9 @@ export const isInputFieldValid = (
       break;
     case FIELD_NAMES.E_MONEY_PIN:
       newInfoObject = validateNumberOnlyField(infoObject);
+      break;
+    case FIELD_NAMES.NEW_PASSWORD:
+      newInfoObject = validateNewPassword(infoObject);
       break;
     case FIELD_NAMES.NAME:
     case FIELD_NAMES.PASSWORD:

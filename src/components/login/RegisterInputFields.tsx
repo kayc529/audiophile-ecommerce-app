@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormTextField } from '../common';
+import { FormTextField, PasswordFieldWithValidator } from '../common';
 import { LoginRegisterFormInfo } from '../../utils/interface';
 
 interface Props {
@@ -13,6 +13,7 @@ export default function RegisterInputFields({ info, onInputChange }: Props) {
       <FormTextField
         title='email'
         name='email'
+        value={info?.email?.value}
         isError={info?.email?.isError}
         errorMsg={info?.email?.errorMsg}
         onInputChange={onInputChange}
@@ -20,6 +21,7 @@ export default function RegisterInputFields({ info, onInputChange }: Props) {
       <FormTextField
         title='first name'
         name='firstName'
+        value={info?.firstName?.value}
         isError={info?.firstName?.isError}
         errorMsg={info?.firstName?.errorMsg}
         onInputChange={onInputChange}
@@ -27,24 +29,25 @@ export default function RegisterInputFields({ info, onInputChange }: Props) {
       <FormTextField
         title='last name'
         name='lastName'
+        value={info?.lastName?.value}
         isError={info?.lastName?.isError}
         errorMsg={info?.lastName?.errorMsg}
         onInputChange={onInputChange}
       />
-      <FormTextField
+      <PasswordFieldWithValidator
         title='password'
-        name='password'
+        name='newPassword'
         inputType='password'
-        placeholder='At least 6 characters'
-        isPasswordField={true}
-        isError={info?.password?.isError}
-        errorMsg={info?.password?.errorMsg}
+        value={info?.newPassword?.value}
+        isError={info?.newPassword?.isError}
+        errorMsg={info?.newPassword?.errorMsg}
         onInputChange={onInputChange}
       />
       <FormTextField
         title='retype password'
         name='retypePassword'
         inputType='password'
+        value={info?.retypePassword?.value}
         isError={info?.retypePassword?.isError}
         errorMsg={info?.retypePassword?.errorMsg}
         onInputChange={onInputChange}

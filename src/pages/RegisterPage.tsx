@@ -33,7 +33,7 @@ export default function RegisterPage() {
       firstName: input.firstName?.value,
       lastName: input.lastName?.value,
       email: input.email?.value,
-      password: input.password?.value,
+      password: input.newPassword?.value,
     };
 
     //TODO
@@ -88,8 +88,8 @@ export default function RegisterPage() {
 
   const isPasswordValid = () => {
     return isInputFieldValid(
-      FIELD_NAMES.PASSWORD,
-      input.password,
+      FIELD_NAMES.NEW_PASSWORD,
+      input.newPassword,
       onInputChange
     );
   };
@@ -104,8 +104,8 @@ export default function RegisterPage() {
       temp.isError = true;
       temp.errorMsg = 'Cannot be blank';
     } else if (
-      input.password?.value &&
-      input.retypePassword.value !== input.password.value
+      input.newPassword?.value &&
+      input.retypePassword.value !== input.newPassword.value
     ) {
       temp.isError = true;
       temp.errorMsg = 'Two passwords do not match';

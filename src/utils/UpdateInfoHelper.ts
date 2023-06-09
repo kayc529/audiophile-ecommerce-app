@@ -15,6 +15,8 @@ export const convertAccountInfoToUpdateUserInfoObject = (
     returnObj[entry[0]] = entry[1].value;
   });
 
+  returnObj.password = accountInfo.newPassword?.value;
+
   return returnObj;
 };
 

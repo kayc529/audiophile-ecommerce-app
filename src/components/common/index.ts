@@ -24,3 +24,4 @@ export { default as SelectField } from './SelectField';
 export { default as LoginRegisterIcon } from './LoginRegisterIcon';
 export { default as Loader } from './Loader';
 export { default as ButtonLoader } from './ButtonLoader';
+export { default as PasswordFieldWithValidator } from './PasswordFieldWithValidator';
