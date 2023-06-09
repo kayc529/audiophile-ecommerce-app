@@ -35,12 +35,18 @@ export default function CheckoutPage() {
   const [order, setOrder] = useState<Order | undefined>(undefined);
 
   useEffect(() => {
-    if (isUsingDefaultAddress) {
+    if (user && isUsingDefaultAddress) {
       fillAddressFields();
     } else {
       emptyDefaultAddress();
     }
   }, [isUsingDefaultAddress]);
+
+  useEffect(() => {
+    if (!user) {
+      toggleIsUsingDefaultAddress();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (order) {

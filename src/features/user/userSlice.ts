@@ -282,6 +282,10 @@ export const userSlice = createSlice({
       );
       state.defaultAddress = defaultAddress;
       state.addresses = addresses;
+      if (state.user && state.user.defaultAddress !== defaultAddress) {
+        storeUserInfoInLocalStorage({ ...state.user, defaultAddress });
+        state.user.defaultAddress = defaultAddress;
+      }
     });
     builder.addCase(getUserAddresses.rejected, (state) => {
       state.isLoading = false;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { HiOutlineUserCircle } from 'react-icons/hi';
 import PrimaryButton from './PrimaryButton';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import LoginUserDropdownMenu from './LoginUserDropdownMenu';
@@ -11,17 +11,18 @@ import { TOAST_MESSAGE_TYPE, toastMessage } from '../../utils/toastHelper';
 
 export default function LoginRegisterIcon() {
   const { user } = useSelector((state: RootState) => state.user);
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
   const goToRegister = () => {
     dispatch(closeAllModals());
-    navigate('register');
+    navigate(`/register?redirect=${location.pathname}`);
   };
 
   const goToLogin = () => {
     dispatch(closeAllModals());
-    navigate('login');
+    navigate(`/login?redirect=${location.pathname}`);
   };
 
   const logout = async () => {

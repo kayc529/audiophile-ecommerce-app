@@ -121,7 +121,10 @@ export default function RegisterPage() {
 
   //if user is logged in, redirect to account page
   if (user) {
-    return <Navigate to='/my-account/orders' replace={true} />;
+    const queryString = window.location.search;
+    const params = new URLSearchParams(queryString);
+    let returnTo = params.get('redirect') || '/';
+    return <Navigate to={returnTo} replace={true} />;
   }
 
   return (
