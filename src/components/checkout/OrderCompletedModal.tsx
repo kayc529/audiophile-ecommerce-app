@@ -5,16 +5,17 @@ import { AppDispatch } from '../../store';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toggleOrderComplete } from '../../features/modal/modalSlice';
-import { removeAllCartItems } from '../../features/user/userSlice';
+import { Order } from '../../utils/interface';
 
-export default function OrderCompletedModal() {
+interface Props {
+  order: Order | undefined;
+}
+
+export default function OrderCompletedModal({ order }: Props) {
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const goBackHome = () => {
-    //TODO remove later
-    dispatch(removeAllCartItems());
-
     dispatch(toggleOrderComplete());
     navigate('/', { replace: true });
   };
@@ -34,7 +35,7 @@ export default function OrderCompletedModal() {
       <p className='pt-6 pb-8 text-lg tracking-lg opacity-50'>
         You will receive an email confirmation shortly.
       </p>
-      <OrderSummary />
+      <OrderSummary order={order} />
       <div className='w-full pt-12'>
         <PrimaryButton
           text='back to home'

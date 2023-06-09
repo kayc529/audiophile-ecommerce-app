@@ -39,13 +39,13 @@ export default function SavedAddress({
       <div className='flex flex-col'>
         <p className='text-lg tracking-lg leading-lg'>{address.attn}</p>
         <p className='text-lg tracking-lg leading-lg'>
-          {address.street} {address.unit}
+          {address.unit},{address.street}
         </p>
         <p className='text-lg tracking-lg leading-lg'>
           {address.city}, {address.state}
         </p>
-        <p className='text-lg tracking-lg leading-lg'>{address.postalCode}</p>
         <p className='text-lg tracking-lg leading-lg'>{address.country}</p>
+        <p className='text-lg tracking-lg leading-lg'>{address.postalCode}</p>
         {isDefault && (
           <p className='text-lg tracking-lg leading-lg opacity-50'>
             Default shipping address

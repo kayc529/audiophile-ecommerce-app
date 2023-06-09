@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import CheckoutForm from '../components/checkout/CheckoutForm';
 import Summary from '../components/checkout/Summary';
-import { TertiaryButton } from '../components/common';
-import { CheckoutFormInfo } from '../utils/interface';
+import { PrimaryButton, TertiaryButton } from '../components/common';
+import { CheckoutFormInfo, Order } from '../utils/interface';
 import {
   initialCheckFormInfo,
   initialAddressFormInfo,
 } from '../data/initialValues';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import OrderCompletedModal from '../components/checkout/OrderCompletedModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store';
+import { AppDispatch, RootState } from '../store';
 import { toggleOrderComplete } from '../features/modal/modalSlice';
 import { isInputFieldValid, FIELD_NAMES } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
 import { convertAddressToFormInfo } from '../utils/addressHelper';
-import { toggleIsUsingDefaultAddress } from '../features/user/userSlice';
+import {
+  removeAllCartItems,
+  toggleIsUsingDefaultAddress,
+} from '../features/user/userSlice';
+import { getOrderObject } from '../utils/orderHelper';
+import { createOrder } from '../features/order/orderSlice';
 
 export default function CheckoutPage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { isOrderCompleteOpen } = useSelector(
     (state: RootState) => state.modal
   );
@@ -27,6 +32,7 @@ export default function CheckoutPage() {
     (state: RootState) => state.user
   );
   const [info, setInfo] = useState<CheckoutFormInfo>(initialCheckFormInfo);
+  const [order, setOrder] = useState<Order | undefined>(undefined);
 
   useEffect(() => {
     if (isUsingDefaultAddress) {
@@ -35,6 +41,13 @@ export default function CheckoutPage() {
       emptyDefaultAddress();
     }
   }, [isUsingDefaultAddress]);
+
+  useEffect(() => {
+    if (order) {
+      dispatch(toggleOrderComplete());
+      dispatch(removeAllCartItems());
+    }
+  }, [order, dispatch]);
 
   const fillAddressFields = () => {
     if (user?.defaultAddress) {
@@ -56,17 +69,30 @@ export default function CheckoutPage() {
     setInfo(temp);
   };
 
-  const checkOut = (e?: React.MouseEvent<HTMLElement>) => {
+  const checkOut = async (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
-    console.log(info);
-
     if (!isFormInfoValid()) {
       toastMessage('Please check your input', TOAST_MESSAGE_TYPE.ERROR);
       return;
     }
 
-    //call api to create order
-    // dispatch(toggleOrderComplete());
+    const orderObj: Order = getOrderObject(cartItems, info);
+    orderObj.customerId = user?.userId || 'N/A';
+
+    try {
+      const result: any = await dispatch(createOrder(orderObj));
+
+      console.log(result);
+
+      if (result.payload?.success) {
+        setOrder(result.payload.order);
+      } else {
+        toastMessage(result.payload?.msg, TOAST_MESSAGE_TYPE.ERROR);
+      }
+    } catch (error: any) {
+      console.log('Check out', error);
+      toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
+    }
   };
 
   const isFormInfoValid = (): boolean => {
@@ -165,32 +191,45 @@ export default function CheckoutPage() {
     navigate(-1);
   };
 
-  //if cart is empty, avoid showing an invalid checkout page by forcing the user
-  //back to home page
-  if (cartItems.length === 0) {
-    return <Navigate to='/' replace={true} />;
-  }
+  const goToHome = () => {
+    navigate('/');
+  };
 
   return (
-    <section className='w-full pt-4 pb-25 flex flex-col items-center bg-mainGrey md:px-6 md:pt-12 md:pb-30 lg:pt-[90px]'>
-      <article className='w-full max-w-mainContentMobile flex flex-col space-y-6 md:max-w-mainContentTablet lg:max-w-mainContent lg:space-y-10'>
-        <TertiaryButton left={true} text='go back' onButtonClick={goBack} />
-        <div className='flex flex-col space-y-8 lg:flex-row lg:space-x-7 lg:space-y-0'>
-          <CheckoutForm
-            info={info}
-            onInfoChange={onInputChange}
-            onDefaultAddressCheck={onDefaultAddressCheck}
-          />
-          <Summary onCheckOut={checkOut} />
-        </div>
-      </article>
-
-      {/* Order Complete modal */}
-      {isOrderCompleteOpen && (
-        <div className='z-modalDialog absolute w-max h-max top-[215px] left-0 right-0 mx-auto'>
-          <OrderCompletedModal />
-        </div>
-      )}
-    </section>
+    <>
+      <section className='relative w-full py-12 flex flex-col items-center bg-mainGrey md:px-6 md:pt-12 md:pb-30 lg:pt-[90px]'>
+        {cartItems.length === 0 ? (
+          <article className='w-max py-12 px-8 my-auto border-0 rounded-lg bg-white flex flex-col items-center justify-center'>
+            <h3 className='text-h5 leading-h5 tracking-h5 md:text-h3 md:leading-h3 md:tracking-h3'>
+              Your cart is empty!
+            </h3>
+            <img
+              className='w-30 h-auto my-8'
+              src='/assets/shared/desktop/icon-cart-grey.svg'
+              alt='cart'
+            />
+            <PrimaryButton text='go shopping' onButtonClick={goToHome} />
+          </article>
+        ) : (
+          <article className='w-full max-w-mainContentMobile flex flex-col space-y-6 md:max-w-mainContentTablet lg:max-w-mainContent lg:space-y-10'>
+            <TertiaryButton left={true} text='go back' onButtonClick={goBack} />
+            <div className='flex flex-col space-y-8 lg:flex-row lg:space-x-7 lg:space-y-0'>
+              <CheckoutForm
+                info={info}
+                onInfoChange={onInputChange}
+                onDefaultAddressCheck={onDefaultAddressCheck}
+              />
+              <Summary onCheckOut={checkOut} />
+            </div>
+          </article>
+        )}
+        {/* Order Complete modal */}
+        {isOrderCompleteOpen && (
+          <div className='z-modalDialog absolute w-max h-max my-auto left-0 right-0 mx-auto'>
+            <OrderCompletedModal order={order} />
+          </div>
+        )}
+      </section>
+    </>
   );
 }

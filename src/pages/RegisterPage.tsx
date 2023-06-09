@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import RegisterInputFields from '../components/login/RegisterInputFields';
 import { PrimaryButton, SecondaryButton } from '../components/common';
 import { Navigate, useNavigate } from 'react-router-dom';

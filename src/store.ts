@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import userReducer from './features/user/userSlice';
 import modalSlice from './features/modal/modalSlice';
 import productSlice from './features/product/productSlice';
+import orderSlice from './features/order/orderSlice';
 
 //dispatch type for useDispatch
 export type AppDispatch = typeof store.dispatch;
@@ -15,5 +16,6 @@ export const store = configureStore({
     user: userReducer,
     modal: modalSlice,
     product: productSlice,
+    order: orderSlice,
   },
 });

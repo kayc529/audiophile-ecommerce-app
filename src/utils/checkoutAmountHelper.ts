@@ -23,3 +23,12 @@ export const calculateGrandTotalAmount = (cartItems: CartItem[]) => {
   let total = calculateTotalAmount(cartItems);
   return total + calculateShipping() + calculateVAT(total);
 };
+
+export const getAllCheckoutAmount = (cartItems: CartItem[]) => {
+  return {
+    total: calculateTotalAmount(cartItems),
+    tax: calculateVAT(cartItems),
+    grandTotal: calculateGrandTotalAmount(cartItems),
+    shipping: calculateShipping(),
+  };
+};

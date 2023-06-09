@@ -3,7 +3,8 @@ import { dummyCartItems } from './cart-data';
 
 export const dummyOrders: Order[] = [
   {
-    id: '111-111-1111',
+    _id: '111-111-1111',
+    orderId: 100002,
     status: 'processing',
     items: dummyCartItems,
     grandTotal: 15.8,
@@ -26,7 +27,8 @@ export const dummyOrders: Order[] = [
     createdAt: 'April 15, 2023',
   },
   {
-    id: '111-111-1112',
+    _id: '111-111-1112',
+    orderId: 100001,
     status: 'shipped',
     items: dummyCartItems,
     grandTotal: 15.8,

@@ -9,6 +9,13 @@ export const ERROR_MESSAGE = {
   INVALID_FORMAT: 'Invalid format',
 };
 
+export const ORDER_STATUS = {
+  IN_PROGRESS: 'IN-PROGRESS',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELED: 'CANCELED',
+};
+
 export const CHECKOUT_FORM_COUNTRIES = ['Canada', 'United States'];
 
 export const CANADA_PROVINCES = [

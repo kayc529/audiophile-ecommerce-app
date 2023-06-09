@@ -59,7 +59,7 @@ const ComponentsDemoPage = () => {
       </fieldset>
       <Counter count={1} />
       <CartModal />
-      <OrderCompletedModal />
+      <OrderCompletedModal order={undefined} />
     </div>
   );
 };

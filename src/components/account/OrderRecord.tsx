@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { Order } from '../../utils/interface';
 import OrderItem from './OrderItem';
+import { formatOrderId } from '../../utils/orderHelper';
+import { convertToSystemTime } from '../../utils/dateHelper';
 
 interface Props {
   order: Order;
@@ -19,7 +21,7 @@ export default function OrderRecord({ order }: Props) {
       <div className='flex flex-col'>
         {/* Order Number */}
         <h6 className='pb-3 uppercase text-h6 leading-h6 tracking-h6 font-bold'>
-          order#{order.id}
+          order#{formatOrderId(order.orderId)}
         </h6>
 
         {/* Basic Order Summary */}
@@ -28,7 +30,7 @@ export default function OrderRecord({ order }: Props) {
             <p className='pb-1 uppercase text-h6 leading-h6 font-bold'>
               order placed
             </p>
-            <p className='text-md'>{order.createdAt}</p>
+            <p className='text-md'>{convertToSystemTime(order.createdAt)}</p>
           </div>
           <div className='flex flex-col'>
             <p className='pb-1 uppercase text-h6 leading-h6 font-bold'>total</p>
@@ -68,13 +70,13 @@ export default function OrderRecord({ order }: Props) {
                 </p>
                 <p className='text-md'>{order.shippingAddress.attn}</p>
                 <p className='text-md'>
-                  {order.shippingAddress.street} {order.shippingAddress.unit}
+                  {order.shippingAddress.unit}, {order.shippingAddress.street}
                 </p>
                 <p className='text-md'>
                   {order.shippingAddress.city}, {order.shippingAddress.state}
                 </p>
-                <p className='text-md'>{order.shippingAddress.postalCode}</p>
                 <p className='text-md'>{order.shippingAddress.country}</p>
+                <p className='text-md'>{order.shippingAddress.postalCode}</p>
               </div>
               <div className='flex flex-col'>
                 <p className='pb-1 uppercase text-h6 leading-h6 font-bold'>

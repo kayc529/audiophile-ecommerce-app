@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import SavedAddress from '../components/account/SavedAddress';
-import { Address, AddressFormInfo, UpdateUserInfo } from '../utils/interface';
+import { Address, AddressFormInfo } from '../utils/interface';
 import AddressInfoFields from '../components/account/AddressInfoFields';
 import { convertAddressToFormInfo } from '../utils/addressHelper';
 import AddShippingAddressButton from '../components/account/AddShippingAddressButton';
@@ -138,7 +138,7 @@ export default function SavedAddressesPage() {
 
   const removeAddress = async (address: Address) => {
     try {
-      await dispatch(deleteUserAddress(address._id)).unwrap();
+      await dispatch(deleteUserAddress(address._id || '')).unwrap();
       toastMessage('Address removed', TOAST_MESSAGE_TYPE.SUCCESS);
       //update address
       getAddresses();

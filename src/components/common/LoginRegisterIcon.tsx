@@ -27,13 +27,7 @@ export default function LoginRegisterIcon() {
   const logout = async () => {
     if (user) {
       try {
-        const result: any = await dispatch(logoutUser()).unwrap();
-
-        if (!result.payload.success) {
-          toastMessage('Failed to log out', TOAST_MESSAGE_TYPE.ERROR);
-          return;
-        }
-
+        await dispatch(logoutUser()).unwrap();
         toastMessage('Logged out!', TOAST_MESSAGE_TYPE.SUCCESS);
       } catch (error: any) {
         console.log(error);

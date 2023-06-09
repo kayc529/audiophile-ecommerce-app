@@ -91,7 +91,7 @@ export interface CartItem {
 }
 
 export interface Address {
-  _id: string;
+  _id?: string;
   attn: string;
   unit?: string;
   street: string;
@@ -114,8 +114,10 @@ export interface User {
 }
 
 export interface Order {
-  id: string;
-  status: string;
+  _id?: string;
+  customerId?: string;
+  orderId?: number;
+  status?: string;
   items: CartItem[];
   grandTotal: number;
   subtotal: number;
@@ -124,11 +126,12 @@ export interface Order {
   shippingAddress: Address;
   paymentMethod: string;
   cardNumber?: string;
-  createdAt: string;
+  createdAt?: string;
   shippedAt?: string;
 }
 
 export interface ResponseError {
+  success: boolean;
   msg: string;
 }
 

@@ -3,10 +3,10 @@ import { CartItem } from '../../utils/interface';
 import SummaryCartItem from './SummaryCartItem';
 
 interface Props {
-  cartItems: CartItem[];
+  cartItems?: CartItem[];
 }
 
-export default function OrderSummaryItems({ cartItems }: Props) {
+export default function OrderSummaryItems({ cartItems = [] }: Props) {
   const [showAllItems, setShowAllItems] = useState<boolean>(false);
 
   const oneItem = <SummaryCartItem cartItem={cartItems[0]} />;
