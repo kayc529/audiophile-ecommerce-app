@@ -14,6 +14,7 @@ interface Props {
 }
 export default function SummaryPricing({ onCheckout }: Props) {
   const { cartItems } = useSelector((state: RootState) => state.user);
+  const { isLoading } = useSelector((state: RootState) => state.order);
 
   return (
     <div className='w-full flex flex-col'>
@@ -31,6 +32,8 @@ export default function SummaryPricing({ onCheckout }: Props) {
         text='continue & pay'
         fullSize={true}
         onButtonClick={onCheckout}
+        isDisabled={isLoading}
+        showLoadingWhenDisabled={true}
       />
     </div>
   );

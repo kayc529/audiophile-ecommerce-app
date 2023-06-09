@@ -15,9 +15,10 @@ import {
   updateUserInfo,
 } from '../features/user/userSlice';
 import { getUpdateAddressObject } from '../utils/UpdateInfoHelper';
+import { Loader } from '../components/common';
 
 export default function SavedAddressesPage() {
-  const { user, defaultAddress, addresses } = useSelector(
+  const { user, defaultAddress, addresses, isLoading } = useSelector(
     (state: RootState) => state.user
   );
   const [isNew, setIsNew] = useState(false);
@@ -61,6 +62,10 @@ export default function SavedAddressesPage() {
   };
 
   const toggleNewAddress = () => {
+    if (isLoading) {
+      return;
+    }
+
     if (!isNew) {
       //check saved address count
       //toast message if save address === 3
@@ -254,6 +259,8 @@ export default function SavedAddressesPage() {
             onInputChange={onInputChange}
           />
         </>
+      ) : isLoading ? (
+        <Loader />
       ) : (
         displaySavedAddresses()
       )}
@@ -264,7 +271,7 @@ export default function SavedAddressesPage() {
       {/* Add shipping address button */}
       {isNew ? (
         <>
-          <h4 className='w-min pb-6 capitalize text-h5 tracking-h5'>
+          <h4 className='w-max pb-6 capitalize text-h5 tracking-h5'>
             add new address
           </h4>
           <AddressInfoFields

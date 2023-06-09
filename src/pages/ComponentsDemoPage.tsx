@@ -8,6 +8,7 @@ import {
   Counter,
   CartModal,
   SelectField,
+  Loader,
 } from '../components/common';
 import { useState } from 'react';
 
@@ -59,7 +60,8 @@ const ComponentsDemoPage = () => {
       </fieldset>
       <Counter count={1} />
       <CartModal />
-      <OrderCompletedModal order={undefined} />
+      {/* <OrderCompletedModal order={undefined} /> */}
+      <Loader />
     </div>
   );
 };

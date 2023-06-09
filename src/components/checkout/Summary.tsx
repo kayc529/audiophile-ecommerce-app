@@ -1,5 +1,4 @@
 import React from 'react';
-import { dummyCartItems } from '../../data/cart-data';
 import SummaryCartItem from './SummaryCartItem';
 import SummaryPricing from './SummaryPricing';
 import { RootState } from '../../store';

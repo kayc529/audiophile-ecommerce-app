@@ -11,6 +11,8 @@ import {
   CHECKOUT_FORM_COUNTRIES,
   US_STATES,
 } from '../../utils/constants';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 interface Props {
   address: AddressFormInfo;
@@ -25,6 +27,7 @@ export default function AddressInfoFields({
   onCancel,
   onUpdate,
 }: Props) {
+  const { isLoading } = useSelector((state: RootState) => state.user);
   const cancel = (e?: React.MouseEvent<HTMLElement>) => {
     e?.preventDefault();
 
@@ -130,8 +133,17 @@ export default function AddressInfoFields({
       </div>
 
       <div className='py-6 flex space-x-4'>
-        <SecondaryButton text='cancel' onButtonClick={cancel} />
-        <PrimaryButton text='Update' onButtonClick={update} />
+        <SecondaryButton
+          text='cancel'
+          onButtonClick={cancel}
+          isDisabled={isLoading}
+        />
+        <PrimaryButton
+          text='Update'
+          onButtonClick={update}
+          isDisabled={isLoading}
+          showLoadingWhenDisabled={true}
+        />
       </div>
     </form>
   );

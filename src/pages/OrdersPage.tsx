@@ -3,9 +3,10 @@ import OrderRecord from '../components/account/OrderRecord';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../store';
 import { getOrders } from '../features/order/orderSlice';
+import { Loader } from '../components/common';
 
 export default function OrdersPage() {
-  const { orders } = useSelector((state: RootState) => state.order);
+  const { orders, isLoading } = useSelector((state: RootState) => state.order);
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch: AppDispatch = useDispatch();
 
@@ -16,11 +17,15 @@ export default function OrdersPage() {
   return (
     <article className='w-full md:pl-10'>
       <h2 className='pb-10 text-h3 leading-h3 tracking-h3 font-bold'>Orders</h2>
-      <ul className='w-full flex flex-col space-y-10'>
-        {orders.map((order) => {
-          return <OrderRecord key={order._id} order={order} />;
-        })}
-      </ul>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ul className='w-full flex flex-col space-y-10'>
+          {orders.map((order) => {
+            return <OrderRecord key={order._id} order={order} />;
+          })}
+        </ul>
+      )}
     </article>
   );
 }

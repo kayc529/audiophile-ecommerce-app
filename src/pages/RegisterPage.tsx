@@ -15,7 +15,7 @@ import { AppDispatch, RootState } from '../store';
 import { registerUser } from '../features/user/userSlice';
 
 export default function RegisterPage() {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user, isLoading } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const [input, setInput] = useState<LoginRegisterFormInfo>(
     initialRegisterFormInfo
@@ -38,14 +38,10 @@ export default function RegisterPage() {
 
     //TODO
     try {
-      const result: any = await dispatch(registerUser(newUser)).unwrap();
-      if (!result.payload.success) {
-        toastMessage(result.payload.msg, TOAST_MESSAGE_TYPE.ERROR);
-        return;
-      }
-
+      await dispatch(registerUser(newUser)).unwrap();
       toastMessage('Registered, welcome!', TOAST_MESSAGE_TYPE.SUCCESS);
     } catch (error: any) {
+      console.log('register', error);
       toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
     }
   };
@@ -141,6 +137,8 @@ export default function RegisterPage() {
             text='register'
             fullSize={true}
             onButtonClick={register}
+            isDisabled={isLoading}
+            showLoadingWhenDisabled={true}
           />
         </div>
 
@@ -155,6 +153,7 @@ export default function RegisterPage() {
           darkMode={true}
           fullSize={true}
           onButtonClick={goToLogin}
+          isDisabled={isLoading}
         />
       </form>
     </section>

@@ -22,3 +22,5 @@ export { default as ModalContainer } from './ModalContainer';
 export { default as ModalShade } from './ModalShade';
 export { default as SelectField } from './SelectField';
 export { default as LoginRegisterIcon } from './LoginRegisterIcon';
+export { default as Loader } from './Loader';
+export { default as ButtonLoader } from './ButtonLoader';

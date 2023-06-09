@@ -11,7 +11,7 @@ import { AppDispatch, RootState } from '../store';
 import { loginUser } from '../features/user/userSlice';
 
 export default function LoginPage() {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user, isLoading } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const [input, setInput] =
     useState<LoginRegisterFormInfo>(initialLoginFormInfo);
@@ -80,7 +80,13 @@ export default function LoginPage() {
         <LoginInputFields info={input} onInputChange={onInputChange} />
 
         <div className='w-full pt-6'>
-          <PrimaryButton text='login' fullSize={true} onButtonClick={login} />
+          <PrimaryButton
+            text='login'
+            fullSize={true}
+            onButtonClick={login}
+            isDisabled={isLoading}
+            showLoadingWhenDisabled={true}
+          />
         </div>
 
         <div className='relative w-full h-[1px] bg-darkGrey mt-12 mb-6'>
@@ -94,6 +100,7 @@ export default function LoginPage() {
           darkMode={true}
           fullSize={true}
           onButtonClick={goToRegister}
+          isDisabled={isLoading}
         />
       </form>
     </section>

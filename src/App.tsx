@@ -38,6 +38,7 @@ const App = () => {
   return (
     <>
       <ToastContainer
+        className='toast-position'
         position='top-right'
         autoClose={1500}
         hideProgressBar

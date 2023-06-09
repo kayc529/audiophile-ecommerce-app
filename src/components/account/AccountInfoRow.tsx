@@ -1,5 +1,7 @@
 import React from 'react';
 import { MdOutlineModeEditOutline } from 'react-icons/md';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 interface Props {
   children: JSX.Element;
@@ -16,8 +18,11 @@ export default function AccountInfoRow({
   isEditting = false,
   onToggleEdit,
 }: Props) {
+  const { isLoading } = useSelector((state: RootState) => state.user);
   const toggleEdit = () => {
-    onToggleEdit(name);
+    if (!isLoading) {
+      onToggleEdit(name);
+    }
   };
 
   return (

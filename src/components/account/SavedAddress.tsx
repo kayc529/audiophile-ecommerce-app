@@ -39,7 +39,7 @@ export default function SavedAddress({
       <div className='flex flex-col'>
         <p className='text-lg tracking-lg leading-lg'>{address.attn}</p>
         <p className='text-lg tracking-lg leading-lg'>
-          {address.unit},{address.street}
+          {address.unit}, {address.street}
         </p>
         <p className='text-lg tracking-lg leading-lg'>
           {address.city}, {address.state}

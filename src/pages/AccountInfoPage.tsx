@@ -18,7 +18,7 @@ import { updateUserInfo } from '../features/user/userSlice';
 import { convertAccountInfoToUpdateUserInfoObject } from '../utils/UpdateInfoHelper';
 
 export default function AccountInfoPage() {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user, isLoading } = useSelector((state: RootState) => state.user);
   const [edittingField, setEdittingField] = useState<string | undefined>(
     undefined
   );
@@ -96,8 +96,6 @@ export default function AccountInfoPage() {
   };
 
   const showErrorMessage = (infoAfterValidation: AccountInfoFormInfo) => {
-    console.log(infoAfterValidation);
-
     setInput((prev) => ({ ...prev, ...infoAfterValidation }));
   };
 
@@ -179,8 +177,13 @@ export default function AccountInfoPage() {
               <SecondaryButton
                 text='Cancel'
                 onButtonClick={(e) => onToggleEdit('name', e)}
+                isDisabled={isLoading}
               />
-              <PrimaryButton text='Update' onButtonClick={updateAccountInfo} />
+              <PrimaryButton
+                text='Update'
+                onButtonClick={updateAccountInfo}
+                isDisabled={isLoading}
+              />
             </div>
           </form>
         </AccountInfoRow>
@@ -213,7 +216,9 @@ export default function AccountInfoPage() {
               <SecondaryButton
                 text='Cancel'
                 onButtonClick={(e) => onToggleEdit('email', e)}
+                isDisabled={isLoading}
               />
+              isDisabled={isLoading}
               <PrimaryButton text='Update' onButtonClick={updateAccountInfo} />
             </div>
           </form>
@@ -260,8 +265,13 @@ export default function AccountInfoPage() {
               <SecondaryButton
                 text='Cancel'
                 onButtonClick={(e) => onToggleEdit('password', e)}
+                isDisabled={isLoading}
               />
-              <PrimaryButton text='Update' onButtonClick={updateAccountInfo} />
+              <PrimaryButton
+                text='Update'
+                onButtonClick={updateAccountInfo}
+                isDisabled={isLoading}
+              />
             </div>
           </form>
         </AccountInfoRow>
