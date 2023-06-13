@@ -9,14 +9,14 @@ interface Props {
 }
 
 export default function Summary({ onCheckOut }: Props) {
-  const { cartItems } = useSelector((state: RootState) => state.user);
+  const { cart } = useSelector((state: RootState) => state.user);
   return (
     <section className='w-full h-max p-8 bg-white rounded-lg flex flex-col lg:w-1/3'>
       <h6 className='uppercase text-h6 leading-h6 tracking-h6 font-bold lg:w-1/3 lg:max-w-[350px]'>
         summary
       </h6>
       <ul className='py-8 flex flex-col space-y-6'>
-        {cartItems.map((cartItem) => {
+        {cart?.items.map((cartItem) => {
           return (
             <SummaryCartItem key={cartItem.productId} cartItem={cartItem} />
           );

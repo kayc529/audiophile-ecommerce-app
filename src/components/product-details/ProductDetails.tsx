@@ -1,28 +1,41 @@
-import { useDispatch } from 'react-redux';
-import { Product } from '../../utils/interface';
+import { useDispatch, useSelector } from 'react-redux';
+import { Cart, Product } from '../../utils/interface';
 import { convertProductToCartItem } from '../../utils/productToCartItemHelper';
 import { PrimaryButton, Counter } from '../common';
 import { useState } from 'react';
-import { addItemToCart } from '../../features/user/userSlice';
-import { toastMessage } from '../../utils/toastHelper';
+import { updateCart } from '../../features/user/userSlice';
+import { TOAST_MESSAGE_TYPE, toastMessage } from '../../utils/toastHelper';
+import { addItemToCurrentCart } from '../../utils/cartHelper';
+import { AppDispatch, RootState } from '../../store';
 
 interface Props {
   product: Product;
 }
 
 export default function ProductDetails({ product }: Props) {
-  const dispatch = useDispatch();
+  const { cart } = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
   const [quantity, setQuantity] = useState<number>(1);
 
-  const addToCart = () => {
+  const addToCart = async () => {
     let cartItem = convertProductToCartItem(product);
     cartItem.quantity = quantity;
-    dispatch(addItemToCart(cartItem));
-    toastMessage('Item added to cart');
+
+    if (cart) {
+      let newCart: Cart = addItemToCurrentCart(cart, cartItem);
+      try {
+        dispatch(updateCart(newCart)).unwrap();
+        toastMessage('Item added to cart');
+      } catch (error: any) {
+        console.log('addToCart', error);
+        toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
+      }
+    }
   };
 
   const onQuantityChange = (quantity: number) => {
-    setQuantity(quantity);
+    //the quantity must be at least 1
+    setQuantity(quantity >= 1 ? quantity : 1);
   };
 
   return (

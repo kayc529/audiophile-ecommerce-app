@@ -83,6 +83,12 @@ export interface AccountInfoFormInfo extends FormInfo {
   retypePassword?: InfoObject;
 }
 
+export interface Cart {
+  _id: string;
+  items: CartItem[];
+  createdAt: string;
+}
+
 export interface CartItem {
   id: string | number;
   productId: string;

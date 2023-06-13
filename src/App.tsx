@@ -20,10 +20,20 @@ import UserAccountSharedLayout from './components/account/UserAccountSharedLayou
 import OrdersPage from './pages/OrdersPage';
 import AccountInfoPage from './pages/AccountInfoPage';
 import SavedAddressesPage from './pages/SavedAddressesPage';
+import { AppDispatch } from './store';
+import { useDispatch } from 'react-redux';
+import { getCart } from './features/user/userSlice';
 
 Modal.setAppElement('#root');
 
 const App = () => {
+  const dispatch: AppDispatch = useDispatch();
+
+  //get shopping cart whenever the app is loaded
+  useEffect(() => {
+    dispatch(getCart());
+  }, []);
+
   //scrolling animation
   useEffect(() => {
     window.addEventListener('scroll', setAnimations);

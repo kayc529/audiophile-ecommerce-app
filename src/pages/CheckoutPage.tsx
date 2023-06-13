@@ -16,7 +16,7 @@ import { isInputFieldValid, FIELD_NAMES } from '../utils/formValidationHelper';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../utils/toastHelper';
 import { convertAddressToFormInfo } from '../utils/addressHelper';
 import {
-  removeAllCartItems,
+  getCart,
   toggleIsUsingDefaultAddress,
 } from '../features/user/userSlice';
 import { getOrderObject } from '../utils/orderHelper';
@@ -28,7 +28,7 @@ export default function CheckoutPage() {
   const { isOrderCompleteOpen } = useSelector(
     (state: RootState) => state.modal
   );
-  const { cartItems, user, isUsingDefaultAddress } = useSelector(
+  const { cart, user, isUsingDefaultAddress } = useSelector(
     (state: RootState) => state.user
   );
   const [info, setInfo] = useState<CheckoutFormInfo>(initialCheckFormInfo);
@@ -51,7 +51,6 @@ export default function CheckoutPage() {
   useEffect(() => {
     if (order) {
       dispatch(toggleOrderComplete());
-      dispatch(removeAllCartItems());
     }
   }, [order, dispatch]);
 
@@ -82,22 +81,18 @@ export default function CheckoutPage() {
       return;
     }
 
-    const orderObj: Order = getOrderObject(cartItems, info);
-    orderObj.customerId = user?.userId || 'N/A';
+    if (cart) {
+      const orderObj: Order = getOrderObject(cart.items, info);
+      orderObj.customerId = user?.userId || 'N/A';
 
-    try {
-      const result: any = await dispatch(createOrder(orderObj));
-
-      console.log(result);
-
-      if (result.payload?.success) {
-        setOrder(result.payload.order);
-      } else {
-        toastMessage(result.payload?.msg, TOAST_MESSAGE_TYPE.ERROR);
+      try {
+        const res = await dispatch(createOrder(orderObj)).unwrap();
+        setOrder(res.order);
+        dispatch(getCart());
+      } catch (error: any) {
+        console.log('Check out', error);
+        toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
       }
-    } catch (error: any) {
-      console.log('Check out', error);
-      toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
     }
   };
 
@@ -204,7 +199,7 @@ export default function CheckoutPage() {
   return (
     <>
       <section className='relative w-full py-12 flex flex-col items-center bg-mainGrey md:px-6 md:pt-12 md:pb-30 lg:pt-[90px]'>
-        {cartItems.length === 0 ? (
+        {cart && cart.items.length === 0 ? (
           <article className='w-max py-12 px-8 my-auto border-0 rounded-lg bg-white flex flex-col items-center justify-center'>
             <h3 className='text-h5 leading-h5 tracking-h5 md:text-h3 md:leading-h3 md:tracking-h3'>
               Your cart is empty!

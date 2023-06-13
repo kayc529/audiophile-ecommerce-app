@@ -1,11 +1,14 @@
 import React from 'react';
-import { CartItem } from '../../utils/interface';
+import { Cart, CartItem } from '../../utils/interface';
 import Counter from './Counter';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateCart } from '../../features/user/userSlice';
 import {
-  modifyCartItemQuantity,
-  removeItemFromCart,
-} from '../../features/user/userSlice';
+  removeItemFromCurrentCart,
+  updateCartItemQuantity,
+} from '../../utils/cartHelper';
+import { AppDispatch, RootState } from '../../store';
+import { TOAST_MESSAGE_TYPE, toastMessage } from '../../utils/toastHelper';
 var _ = require('lodash');
 
 interface Props {
@@ -13,20 +16,28 @@ interface Props {
 }
 
 export default function CartModalItem({ cartItem }: Props) {
-  const dispatch = useDispatch();
+  const { cart } = useSelector((state: RootState) => state.user);
+  const dispatch: AppDispatch = useDispatch();
 
   const countChanged = (newCount: number) => {
     //TODO if the newCount is 0
     //remove item
-    if (newCount !== cartItem.quantity) {
+    if (newCount !== cartItem.quantity && cart) {
+      let newCart: Cart | undefined = undefined;
       if (newCount === 0) {
-        dispatch(removeItemFromCart(cartItem));
-        return;
+        newCart = removeItemFromCurrentCart(cart, cartItem);
+      } else {
+        const newCartItem = _.cloneDeep(cartItem);
+        newCartItem.quantity = newCount;
+        newCart = updateCartItemQuantity(cart, newCartItem);
       }
 
-      let newCartItem = _.cloneDeep(cartItem);
-      newCartItem.quantity = newCount;
-      dispatch(modifyCartItemQuantity(newCartItem));
+      try {
+        dispatch(updateCart(newCart)).unwrap();
+      } catch (error: any) {
+        console.log('item count changed', error);
+        toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);
+      }
     }
   };
 

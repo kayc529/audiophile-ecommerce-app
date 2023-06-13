@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../store';
 import LoginUserDropdownMenu from './LoginUserDropdownMenu';
 import { closeAllModals } from '../../features/modal/modalSlice';
-import { logoutUser } from '../../features/user/userSlice';
+import { getCart, logoutUser } from '../../features/user/userSlice';
 import { TOAST_MESSAGE_TYPE, toastMessage } from '../../utils/toastHelper';
 
 export default function LoginRegisterIcon() {
@@ -30,6 +30,7 @@ export default function LoginRegisterIcon() {
       try {
         await dispatch(logoutUser()).unwrap();
         toastMessage('Logged out!', TOAST_MESSAGE_TYPE.SUCCESS);
+        dispatch(getCart());
       } catch (error: any) {
         console.log(error);
         toastMessage(error.msg, TOAST_MESSAGE_TYPE.ERROR);

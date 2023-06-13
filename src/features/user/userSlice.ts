@@ -6,14 +6,14 @@ import {
   LoginCredentials,
   UpdateUserInfo,
   Address,
+  Cart,
+  ResponseError,
 } from '../../utils/interface';
 import {
   getCartFromLocalStorage,
   getUserInfoFromLocalStorage,
-  removeCartInLocalStorage,
   removeUserInfoFromLocalStorage,
   storeUserInfoInLocalStorage,
-  updateCartInLocalStorage,
 } from '../../utils/localStorageHelper';
 import customFetch from '../../utils/customFetch';
 import { RootState } from '../../store';
@@ -23,7 +23,7 @@ const _ = require('lodash');
 export interface UserInitialState {
   isLoading: boolean;
   user: User | undefined;
-  cartItems: CartItem[];
+  cart: Cart | undefined;
   isUsingDefaultAddress: boolean;
   defaultAddress: Address | undefined;
   addresses: Address[];
@@ -32,16 +32,16 @@ export interface UserInitialState {
 const initialState: UserInitialState = {
   isLoading: false,
   user: getUserInfoFromLocalStorage(),
-  cartItems: getCartFromLocalStorage(),
+  cart: undefined,
   isUsingDefaultAddress: false,
   defaultAddress: undefined,
   addresses: [],
 };
 
 export const loginUser = createAsyncThunk<
-  { success: boolean; user: User },
+  { success: boolean; user: User; cart: Cart },
   LoginCredentials,
-  { rejectValue: { success: boolean; msg: string } }
+  { rejectValue: ResponseError }
 >('user/login', async (credentials, thunkApi) => {
   try {
     const res = await customFetch.post('/auth/login', credentials);
@@ -56,9 +56,9 @@ export const loginUser = createAsyncThunk<
 });
 
 export const registerUser = createAsyncThunk<
-  { success: boolean; user: User },
+  { success: boolean; user: User; cart: Cart },
   RegisterUser,
-  { rejectValue: { success: boolean; msg: string } }
+  { rejectValue: ResponseError }
 >('user/register', async (newUser, thunkApi) => {
   try {
     const res = await customFetch.post('/auth/register', newUser);
@@ -75,7 +75,7 @@ export const registerUser = createAsyncThunk<
 export const logoutUser = createAsyncThunk<
   { success: boolean },
   void,
-  { rejectValue: { success: boolean; msg: string } }
+  { rejectValue: ResponseError }
 >('user/logout', async (_, thunkApi) => {
   try {
     const res = await customFetch.get('/auth/logout');
@@ -162,57 +162,44 @@ export const deleteUserAddress = createAsyncThunk<
   }
 });
 
+export const getCart = createAsyncThunk<
+  { success: boolean; cart: Cart },
+  void,
+  { rejectValue: ResponseError }
+>('user/getCart', async (_, thunkApi) => {
+  try {
+    const res = await customFetch.get('/cart');
+    return res.data;
+  } catch (error: any) {
+    console.log(error);
+    return thunkApi.rejectWithValue({
+      success: false,
+      msg: error.response.data.msg,
+    });
+  }
+});
+
+export const updateCart = createAsyncThunk<
+  { success: boolean; cart: Cart },
+  Cart,
+  { rejectValue: ResponseError }
+>('user/updateCart', async (newCart, thunkApi) => {
+  try {
+    const res = await customFetch.patch('/cart', newCart);
+    return res.data;
+  } catch (error: any) {
+    console.log(error);
+    return thunkApi.rejectWithValue({
+      success: false,
+      msg: error.response.data.msg,
+    });
+  }
+});
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    addItemToCart: (state, action) => {
-      let temp: CartItem[] = _.cloneDeep(state.cartItems);
-
-      let index = temp.findIndex(
-        (item) => item.productId === action.payload.productId
-      );
-
-      if (index !== -1) {
-        temp[index].quantity += action.payload.quantity;
-      } else {
-        temp.push(action.payload);
-      }
-
-      updateCartInLocalStorage(temp);
-      return { ...state, cartItems: temp };
-    },
-    modifyCartItemQuantity: (state, action) => {
-      let temp: CartItem[] = _.cloneDeep(state.cartItems);
-      let index = temp.findIndex(
-        (item) => item.productId === action.payload.productId
-      );
-
-      if (index !== -1) {
-        temp[index].quantity = action.payload.quantity;
-      }
-
-      updateCartInLocalStorage(temp);
-      return { ...state, cartItems: temp };
-    },
-    removeItemFromCart: (state, action) => {
-      let temp: CartItem[] = _.cloneDeep(state.cartItems);
-
-      let index = temp.findIndex(
-        (item) => item.productId === action.payload.productId
-      );
-
-      if (index !== -1) {
-        temp.splice(index, 1);
-      }
-
-      updateCartInLocalStorage(temp);
-      return { ...state, cartItems: temp };
-    },
-    removeAllCartItems: (state) => {
-      removeCartInLocalStorage();
-      return { ...state, cartItems: [] };
-    },
     toggleIsUsingDefaultAddress: (state) => {
       return { ...state, isUsingDefaultAddress: !state.isUsingDefaultAddress };
     },
@@ -227,6 +214,7 @@ export const userSlice = createSlice({
       storeUserInfoInLocalStorage(payload.user);
       state.isLoading = false;
       state.user = payload.user;
+      state.cart = payload.cart;
     });
     builder.addCase(loginUser.rejected, (state) => {
       state.isLoading = false;
@@ -241,6 +229,7 @@ export const userSlice = createSlice({
       storeUserInfoInLocalStorage(payload.user);
       state.isLoading = false;
       state.user = payload.user;
+      state.cart = payload.cart;
     });
     builder.addCase(registerUser.rejected, (state) => {
       state.isLoading = false;
@@ -254,6 +243,7 @@ export const userSlice = createSlice({
       removeUserInfoFromLocalStorage();
       state.isLoading = false;
       state.user = undefined;
+      state.cart = undefined;
     });
     builder.addCase(logoutUser.rejected, (state) => {
       state.isLoading = false;
@@ -322,15 +312,31 @@ export const userSlice = createSlice({
     builder.addCase(deleteUserAddress.rejected, (state) => {
       state.isLoading = false;
     });
+    //Get Cart
+    builder.addCase(getCart.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(getCart.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.cart = payload.cart;
+    });
+    builder.addCase(getCart.rejected, (state) => {
+      state.isLoading = false;
+    });
+    //Update Cart
+    builder.addCase(updateCart.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateCart.fulfilled, (state, { payload }) => {
+      state.isLoading = false;
+      state.cart = payload.cart;
+    });
+    builder.addCase(updateCart.rejected, (state) => {
+      state.isLoading = false;
+    });
   },
 });
 
-export const {
-  addItemToCart,
-  modifyCartItemQuantity,
-  removeAllCartItems,
-  removeItemFromCart,
-  toggleIsUsingDefaultAddress,
-} = userSlice.actions;
+export const { toggleIsUsingDefaultAddress } = userSlice.actions;
 
 export default userSlice.reducer;
