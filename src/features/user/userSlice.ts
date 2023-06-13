@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
-  CartItem,
   RegisterUser,
   User,
   LoginCredentials,
@@ -10,7 +9,6 @@ import {
   ResponseError,
 } from '../../utils/interface';
 import {
-  getCartFromLocalStorage,
   getUserInfoFromLocalStorage,
   removeUserInfoFromLocalStorage,
   storeUserInfoInLocalStorage,
